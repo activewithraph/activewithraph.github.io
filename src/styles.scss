@@ -1,0 +1,7 @@
+/* Importing Bootstrap SCSS file. */
+@use "bootstrap/scss/bootstrap";
+
+@import "defaults";
+@import "elements";
+@import "common";
+@import "overrides";
