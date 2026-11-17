@@ -1,23 +1,21 @@
 <div class="d-flex flex-column w-100 min-vh-100 align-items-center">
+  <div class="w-100 d-flex p-3">
+    <app-social-media-links></app-social-media-links>
+    <div class="spacer"></div>
+    <app-menu [isHomeSelected]="true"></app-menu>
+  </div>
   <div class="home-header-container d-flex w-100">
-    <div class="home-header d-flex w-100 flex-column">
-      <div class="h-25 w-100 d-flex p-4">
-        <app-social-media-links></app-social-media-links>
-        <div class="spacer"></div>
-        <app-menu [isHomeSelected]="true"></app-menu>
-      </div>
+    <div class="home-header bg-header d-flex w-100 flex-column">
       <div
         class="h-50 w-100 d-flex w-100 align-items-center justify-content-center"
-      >
-        <!-- <img class="home-logo-image" src="assets/images/logo-white-large.png" /> -->
-      </div>
+      ></div>
       <div
         class="h-25 w-100 d-flex w-100 align-items-center justify-content-center"
       ></div>
     </div>
     <img class="home-header-image" src="assets/images/running-header.png" />
   </div>
-  <div class="page-content">
+  <!-- <div class="page-content">
     <div class="mb-2 text-center">
       With DigimezZo, enjoy a digital intermezzo filled with beautiful,
       intuitive, and user-friendly software.
@@ -54,7 +52,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="spacer"></div>
   <app-footer class="w-100"></app-footer>
 </div>
