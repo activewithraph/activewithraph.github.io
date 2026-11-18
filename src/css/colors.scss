@@ -1,0 +1,78 @@
+/* Active with Raph: colour palette
+   Import once (e.g. in styles.css: @import "colors.css";) and use the variables everywhere. */
+
+:root {
+  /* Brand */
+  --color-accent: #d63a16;          /* text links, small accents (4.7:1 on white) */
+  --color-accent-bright: #ff5a36;   /* buttons, icons, underlines, highlights (logo orange) */
+  --color-accent-hover: #b32e10;    /* hover/pressed state for links */
+  --color-secondary: #1f5fbf;       /* blue from shoes/watch: tags, secondary buttons */
+
+  /* Dark surfaces (footer, copyright bar) */
+  --color-navy: #0f172a;            /* logo navy */
+  --color-on-navy: #ffffff;         /* links and headings on navy */
+  --color-on-navy-muted: #9ca3ae;   /* copyright text on navy (about 7:1) */
+
+  /* Neutrals */
+  --color-bg: #ffffff;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+
+  /* Banner sky, sampled from the running photo (top to bottom of the banner) */
+  --banner-sky: linear-gradient(
+    #cbd0dc 0%,
+    #b0b6c2 43%,
+    #b0b4c0 73%,
+    #9ca3ae 93%
+  );
+}
+
+/* Usage examples */
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+a {
+  color: var(--color-accent);
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+.btn-accent {
+  background: var(--color-accent-bright);
+  color: var(--color-navy);         /* dark text on bright orange reads best */
+  border: 0;
+}
+
+.btn-accent:hover {
+  background: var(--color-accent);
+  color: var(--color-on-navy);
+}
+
+.tag {
+  background: var(--color-secondary);
+  color: #ffffff;
+}
+
+.home-header {
+  background: var(--banner-sky);
+}
+
+.copyright {
+  background: var(--color-navy);
+  color: var(--color-on-navy-muted);
+}
+
+.copyright a {
+  color: var(--color-on-navy);
+}
+
+hr,
+.divider {
+  border-color: var(--color-border);
+}

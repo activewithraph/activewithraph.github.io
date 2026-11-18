@@ -1,58 +1,34 @@
-<div class="d-flex flex-column w-100 min-vh-100 align-items-center">
-  <div class="w-100 d-flex p-3">
+<!-- Replaces the old <div class="home-header ..."> block. Keep the rest of the page as it is. -->
+<div class="home-header d-flex w-100 flex-column">
+  <div class="home-header__runner">
+    <img
+      src="assets/images/runner-banner.png"
+      alt="Raph running in the rain"
+      width="1087"
+      height="1446"
+    />
+  </div>
+
+  <div class="home-header__top w-100 d-flex p-4">
     <app-social-media-links></app-social-media-links>
     <div class="spacer"></div>
     <app-menu [isHomeSelected]="true"></app-menu>
   </div>
-  <div class="home-header-container d-flex w-100">
-    <div class="home-header bg-header d-flex w-100 flex-column">
-      <div
-        class="h-50 w-100 d-flex w-100 align-items-center justify-content-center"
-      ></div>
-      <div
-        class="h-25 w-100 d-flex w-100 align-items-center justify-content-center"
-      ></div>
+
+  <div class="home-header__hero w-100">
+    <div class="home-header__text">
+      <h1 class="home-title">
+        <span class="home-title__main">Active</span>
+        <span class="home-title__sub">with Raph</span>
+      </h1>
+      <p class="home-tagline">Lift. Run. Ride. Repeat.</p>
+      <a
+        class="home-cta btn-accent"
+        href="https://www.instagram.com/activewithraph/"
+        target="_blank"
+        rel="noopener"
+        >Follow on Instagram</a
+      >
     </div>
-    <img class="home-header-image" src="assets/images/running-header.png" />
   </div>
-  <!-- <div class="page-content">
-    <div class="mb-2 text-center">
-      With DigimezZo, enjoy a digital intermezzo filled with beautiful,
-      intuitive, and user-friendly software.
-    </div>
-    <div class="mt-2 text-center">
-      Take a break from the ordinary and enjoy your digital intermezzo!
-    </div>
-    <div class="home-showcase w-100 my-5">
-      <div class="home-showcase__item m-5">
-        <img src="assets/images/dopamine3-logo.png" width="100" height="100" />
-        <div class="mt-4 fw-bold">DOPAMINE</div>
-        <div class="mt-4 text-center">
-          Dopamine is an audio player designed to make organizing and enjoying
-          your music as simple, beautiful, and effortless as possible. Because
-          managing your music should be just as enjoyable as listening to it.
-        </div>
-      </div>
-      <div class="home-showcase__item m-5">
-        <img src="assets/images/knowte-logo.png" width="100" height="100" />
-        <div class="mt-4 fw-bold">KNOWTE</div>
-        <div class="mt-4 text-center">
-          Knowte is a simple yet powerful note-taking application that makes
-          capturing, organizing, and managing your thoughts effortless. Keep
-          your ideas organized and your mind clear!
-        </div>
-      </div>
-      <div class="home-showcase__item m-5">
-        <img src="assets/images/vitomu-logo.png" width="100" height="100" />
-        <div class="mt-4 fw-bold">VITOMU</div>
-        <div class="mt-4 text-center">
-          Vitomu is a simple and intuitive video-to-audio converter that makes
-          extracting audio from your videos quick and effortless. Turn your
-          videos into sound, with just a few clicks!
-        </div>
-      </div>
-    </div>
-  </div> -->
-  <div class="spacer"></div>
-  <app-footer class="w-100"></app-footer>
 </div>

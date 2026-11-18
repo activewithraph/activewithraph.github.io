@@ -1,9 +1,30 @@
+.offcanvas-header {
+  background-color: var(--color-accent);
+  height: 50px;
+}
+
+.offcanvas-body {
+  background-color: var(--color-navy);
+}
+
+.offcanvas-body__text {
+  color: var(--color-on-navy);
+}
+
+.offcanvas-body__selected-text {
+  color: var(--color-accent);
+}
+
 .horizontal-menu {
   visibility: visible;
 }
 
 .hamburger-menu {
   visibility: collapse;
+}
+
+.selected-text {
+  color: var(--color-accent);
 }
 
 @media screen and (max-width: 1000px) {

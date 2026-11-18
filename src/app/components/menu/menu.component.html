@@ -1,19 +1,19 @@
 <ng-template #content let-offcanvas>
-  <div class="offcanvas-header bg-accent">
+  <div class="offcanvas-header">
     <div class="spacer"></div>
     <i
-      class="las la-times la-2x text-white"
+      class="las la-times la-2x"
       role="button"
       (click)="offcanvas.dismiss()"
     ></i>
   </div>
-  <div class="offcanvas-body bg-header">
+  <div class="offcanvas-body">
     <div class="d-flex flex-column">
       <div
         class="fw-bold m-2"
         [ngClass]="{
-          'text-accent': this.isHomeSelected,
-          'text-white': !this.isHomeSelected,
+          'offcanvas-body__selected-text': this.isHomeSelected,
+          'offcanvas-body__text': !this.isHomeSelected,
         }"
         role="button"
         routerLink="/home"
@@ -77,7 +77,7 @@
     <div
       class="fw-bold mx-4"
       [ngClass]="{
-        'text-accent': this.isHomeSelected,
+        'selected-text': this.isHomeSelected,
       }"
       role="button"
       routerLink="/home"
