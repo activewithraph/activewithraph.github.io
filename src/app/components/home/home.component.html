@@ -1,34 +1,38 @@
 <!-- Replaces the old <div class="home-header ..."> block. Keep the rest of the page as it is. -->
-<div class="home-header d-flex w-100 flex-column">
-  <div class="home-header__runner">
-    <img
-      src="assets/images/runner-banner.png"
-      alt="Raph running in the rain"
-      width="1087"
-      height="1446"
-    />
-  </div>
+<div class="d-flex flex-column w-100 min-vh-100 align-items-center">
+  <div class="home-header d-flex w-100 flex-column">
+    <div class="home-header__runner">
+      <img
+        src="assets/images/runner-banner.png"
+        alt="Raph running in the rain"
+        width="1087"
+        height="1446"
+      />
+    </div>
 
-  <div class="home-header__top w-100 d-flex p-4">
-    <app-social-media-links></app-social-media-links>
-    <div class="spacer"></div>
-    <app-menu [isHomeSelected]="true"></app-menu>
-  </div>
+    <div class="home-header__top w-100 d-flex p-4">
+      <app-social-media-links></app-social-media-links>
+      <div class="spacer"></div>
+      <app-menu [isHomeSelected]="true"></app-menu>
+    </div>
 
-  <div class="home-header__hero w-100">
-    <div class="home-header__text">
-      <h1 class="home-title">
-        <span class="home-title__main">Active</span>
-        <span class="home-title__sub">with Raph</span>
-      </h1>
-      <p class="home-tagline">Lift. Run. Ride. Repeat.</p>
-      <a
-        class="home-cta btn-accent"
-        href="https://www.instagram.com/activewithraph/"
-        target="_blank"
-        rel="noopener"
-        >Follow on Instagram</a
-      >
+    <div class="home-header__hero w-100">
+      <div class="home-header__text">
+        <h1 class="home-title">
+          <span class="home-title__main">Active</span>
+          <span class="home-title__sub">with Raph</span>
+        </h1>
+        <p class="home-tagline">Lift. Run. Ride. Repeat.</p>
+        <a
+          class="home-cta btn-accent"
+          href="https://www.instagram.com/activewithraph/"
+          target="_blank"
+          rel="noopener"
+          >Follow on Instagram</a
+        >
+      </div>
     </div>
   </div>
+  <div class="spacer"></div>
+  <app-footer class="w-100 mt-auto"></app-footer>
 </div>
