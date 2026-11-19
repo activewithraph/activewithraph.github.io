@@ -1,49 +1,56 @@
+<!-- Me page. The header block is generic: reuse it on Blog, Contact etc. by changing the title.
+     Text marked "placeholder" is my wording, so replace it with your own. -->
 <div class="d-flex flex-column w-100 min-vh-100 align-items-center">
   <div class="page-header d-flex w-100 flex-column">
-    <div class="h-100 w-100 d-flex p-4">
-      <div class="h-100 d-flex align-items-center">
-        <img class="page-logo-image" src="assets/images/logo-white-small.png" />
-      </div>
+    <div class="page-header__top w-100 d-flex p-4">
+      <app-social-media-links></app-social-media-links>
       <div class="spacer"></div>
       <app-menu [isMeSelected]="true"></app-menu>
     </div>
+    <h1 class="page-header__title">Me</h1>
   </div>
-  <div class="page-content">
-    <h1 class="align-self-center">Me</h1>
-    <div class="me-introduction mt-5">
-      <img
-        *ngIf="photoUrl; else photoPlaceholder"
-        class="me-photo"
-        [src]="photoUrl"
-        alt="Portrait of the creator of DigimezZo"
-      />
-      <ng-template #photoPlaceholder>
-        <div class="me-photo me-photo-placeholder">Your photo</div>
-      </ng-template>
-      <div>
-        <p>
-          Hi, I'm Raphaël, your friendly neighbourhood software developer and
-          the creator of Dopamine, Knowte and Vitomu. I share my projects under
-          the name DigimezZo, short for "Digital intermezzo", a little break in
-          the digital world.
-        </p>
-        <p>
-          My passion for software began when I got my first computer as a
-          teenager. That curiosity eventually led me to create software of my
-          own, and I've been doing so for more than 20 years.
-          I create and work on these projects in my spare time, simply because
-          I enjoy making software.
-        </p>
-        <p>
-          I believe software should work with you, not against you. My goal is
-          to create applications that are clear, easy to use and stay out of
-          your way, without unnecessary interruptions or nagging. You should be
-          able to focus on what you want to do and enjoy doing it.
-        </p>
-        <p>Thanks for stopping by, and I hope you enjoy using my software! ♥️</p>
-      </div>
+
+  <main class="me">
+    <div class="me__photo">
+      <img src="assets/images/me.jpeg" alt="Raph" />
     </div>
-  </div>
+
+    <div class="me__content">
+      <p class="me__lead">Hi, I'm Raphaël, 47, from Belgium.</p>
+
+      <!-- placeholder -->
+      <p>
+        Everyone calls me Raph. I train because it makes everything else in my life better: more energy,
+        a clearer head, and a body that keeps up. This site is where I share what I do and what I learn along the way.
+      </p>
+
+      <ul class="me__tags">
+        <li>Running</li>
+        <li>Strength</li>
+        <li>Cycling</li>
+      </ul>
+
+      <!-- placeholder -->
+      <p>
+        Most of my training is strength work and running, with a bit of cycling when the weather and the legs allow it.
+        I'm not a pro and I don't pretend to be. I just show up, keep it simple and keep it fun.
+      </p>
+
+      <!-- placeholder: your own philosophy in one line -->
+      <blockquote class="me__quote">Consistency beats intensity.</blockquote>
+
+      <p>Thanks for stopping by. Come train with me!</p>
+
+      <a
+        class="me__cta"
+        href="https://www.instagram.com/activewithraph/"
+        target="_blank"
+        rel="noopener"
+        >Follow on Instagram</a
+      >
+    </div>
+  </main>
+
   <div class="spacer"></div>
   <app-footer class="w-100"></app-footer>
 </div>

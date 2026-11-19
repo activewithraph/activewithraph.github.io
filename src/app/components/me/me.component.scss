@@ -1,28 +1,153 @@
-.me-introduction {
-  display: flex;
-  align-items: flex-start;
-  gap: 32px;
+/* Me page + compact page header (reusable on other pages). Needs colors.css (fallbacks included). */
+
+/* Compact header: same sky as the home banner, just shorter */
+.page-header {
+  position: relative;
+  height: 230px;
+  background: var(--banner-sky, linear-gradient(#cbd0dc 0%, #b0b6c2 43%, #b0b4c0 73%, #9ca3ae 93%));
 }
 
-.me-photo {
-  width: 200px;
-  height: 200px;
-  flex: 0 0 200px;
-  border-radius: 50%;
+.page-header__top {
+  position: relative;
+  z-index: 2;
+}
+
+/* The menu text must be dark on this light sky; the active item orange, e.g.:
+   .menu-item.active { color: var(--color-accent); border-bottom: 3px solid var(--color-accent-bright); } */
+
+.page-header__title {
+  margin: 0;
+  padding-top: 8px;
+  text-align: center;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-navy, #0f172a);
+}
+
+.page-header__title::before {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 6px;
+  margin: 0 auto 18px;
+  border-radius: 3px;
+  background: var(--color-accent-bright, #ff5a36);
+}
+
+/* Layout: photo left, text right */
+.me {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 56px;
+  width: min(1000px, 90%);
+  margin: 56px auto 72px;
+  align-items: start;
+  color: var(--color-text, #1e293b);
+}
+
+.me__photo {
+  position: sticky;
+  top: 24px;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--color-navy, #0f172a);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+}
+
+.me__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  object-position: center top;
 }
 
-.me-photo-placeholder {
+.me__content p {
+  margin: 0 0 18px;
+  line-height: 1.65;
+}
+
+.me__content a:not(.me__cta) {
+  color: var(--color-accent, #d63a16);
+  font-weight: 600;
+}
+
+.me__content a:not(.me__cta):hover {
+  color: var(--color-accent-hover, #b32e10);
+}
+
+.me__lead {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-navy, #0f172a);
+}
+
+/* Running / Strength / Cycling tags */
+.me__tags {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #eeeeee;
-  color: #555555;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 24px 0;
+  padding: 0;
+  list-style: none;
 }
 
-@media screen and (max-width: 700px) {
-  .me-introduction {
-    flex-direction: column;
-    align-items: center;
+.me__tags li {
+  padding: 6px 16px;
+  border: 2px solid var(--color-accent-bright, #ff5a36);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-navy, #0f172a);
+}
+
+/* Highlighted line */
+.me__quote {
+  margin: 28px 0;
+  padding: 4px 0 4px 22px;
+  border-left: 5px solid var(--color-accent-bright, #ff5a36);
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--color-navy, #0f172a);
+}
+
+.me__cta {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--color-accent-bright, #ff5a36);
+  color: var(--color-navy, #0f172a);
+}
+
+.me__cta:hover {
+  background: var(--color-accent, #d63a16);
+  color: #ffffff;
+}
+
+@media screen and (max-width: 800px) {
+  .page-header {
+    height: 200px;
+  }
+
+  .me {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin: 36px auto 56px;
+  }
+
+  .me__photo {
+    position: static;
+    width: min(340px, 100%);
+    margin: 0 auto;
   }
 }

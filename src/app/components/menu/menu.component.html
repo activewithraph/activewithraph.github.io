@@ -45,17 +45,18 @@
       >
         BLOG
       </div> -->
-      <!-- <a
+      <a
         class="fw-bold m-2 text-decoration-none"
         [ngClass]="{
-          'text-accent': this.isMeSelected,
-          'text-white': !this.isMeSelected,
+          'offcanvas-body__selected-text': this.isMeSelected,
+          'offcanvas-body__text': !this.isMeSelected,
         }"
+        role="button"
         routerLink="/me"
         (click)="offcanvas.dismiss()"
       >
         ME
-      </a> -->
+      </a>
       <!-- <div
         class="fw-bold m-2"
         [ngClass]="{
@@ -104,15 +105,16 @@
     >
       BLOG
     </div> -->
-    <!-- <div
+    <div
       class="fw-bold mx-4 text-decoration-none"
       [ngClass]="{
-        'text-accent': this.isMeSelected,
+        'selected-text': this.isMeSelected,
       }"
+      role="button"
       routerLink="/me"
     >
       ME
-    </div> -->
+    </div>
     <!-- <div
       class="fw-bold mx-4"
       [ngClass]="{
