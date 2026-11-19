@@ -5,11 +5,13 @@
    1.446x the banner height and 0.446x of the banner height sticks out below it. */
 
 .home-header {
-  --h: 500px;                            /* banner height: the only number you need to change */
-  --img-h: calc(var(--h) * 1.446);       /* 1446 / 1000 */
+  --h: 500px; /* banner height: the only number you need to change */
+  --img-h: calc(var(--h) * 1.446); /* 1446 / 1000 */
   position: relative;
   height: var(--h);
-  margin-bottom: calc(var(--h) * 0.446); /* room for the legs, shoe and shadow */
+  margin-bottom: calc(
+    var(--h) * 0.446
+  ); /* room for the legs, shoe and shadow */
   background: var(--banner-sky);
 }
 
@@ -99,12 +101,14 @@
 /* Narrow screens: text first, runner centred underneath */
 @media screen and (max-width: 900px) {
   .home-header {
-    --h: 270px;                          /* visible height of the runner part */
+    --h: 270px; /* visible height of the runner part */
     height: auto;
     margin-bottom: calc(var(--h) * 0.446);
     /* gradient only behind the runner part, so it lines up with the photo's sky;
        the text area above gets the gradient's top colour */
-    background: var(--banner-sky) left bottom / 100% var(--h) no-repeat, #cbd0dc;
+    background:
+      var(--banner-sky) left bottom / 100% var(--h) no-repeat,
+      #cbd0dc;
   }
 
   .home-header__top {
@@ -132,7 +136,7 @@
     position: relative;
     right: auto;
     align-self: center;
-    height: var(--h);                    /* the image itself overflows below */
+    height: var(--h); /* the image itself overflows below */
     overflow: visible;
   }
 
@@ -141,5 +145,145 @@
     /* the photo's top edge now sits mid-header, so fade it in */
     -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 9%);
     mask-image: linear-gradient(to bottom, transparent 0, #000 9%);
+  }
+}
+
+.pillars {
+  width: min(1100px, 90%);
+  margin: 0 auto;
+}
+
+.pillars__title {
+  margin: 0 0 32px;
+  text-align: center;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-navy, #0f172a);
+}
+
+.pillars__title::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 6px;
+  margin: 14px auto 0;
+  border-radius: 3px;
+  background: var(--color-accent-bright, #ff5a36);
+}
+
+.pillars__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.pillar {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 16px;
+  background: var(--color-bg, #ffffff);
+  color: var(--color-text, #1e293b);
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pillar:hover,
+.pillar:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+}
+
+.pillar__photo {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--color-navy, #0f172a);
+}
+
+/* Icon variant: orange line icon on a navy panel, for pillars without a photo */
+.pillar__photo--icon {
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(var(--color-navy, #0f172a), #283550);
+  color: var(--color-accent-bright, #ff5a36);
+}
+
+.pillar__icon {
+  width: 88px;
+  height: auto;
+  transition: transform 0.4s ease;
+}
+
+.pillar:hover .pillar__icon {
+  transform: scale(1.06);
+}
+
+.pillar__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.4s ease;
+}
+
+.pillar:hover .pillar__photo img {
+  transform: scale(1.04);
+}
+
+.pillar__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 22px 24px 26px;
+}
+
+.pillar__kicker {
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--color-accent, #d63a16);
+}
+
+.pillar__name {
+  margin: 0 0 10px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-navy, #0f172a);
+}
+
+.pillar__text {
+  margin: 0 0 18px;
+  flex: 1;
+  line-height: 1.55;
+  color: var(--color-text-muted, #64748b);
+}
+
+.pillar__more {
+  font-weight: 700;
+  color: var(--color-accent, #d63a16);
+}
+
+.pillar__more::after {
+  content: " \2192";
+}
+
+.pillar:hover .pillar__more {
+  color: var(--color-accent-hover, #b32e10);
+}
+
+@media screen and (max-width: 900px) {
+  .pillars__grid {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+    margin: 0 auto;
   }
 }
