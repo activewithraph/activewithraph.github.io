@@ -2,22 +2,24 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { BlogPostComponent } from "./components/blog/blog-post/blog-post.component";
 import { BlogComponent } from "./components/blog/blog.component";
-import { ContactComponent } from "./components/contact/contact.component";
-import { DonateComponent } from "./components/donate/donate.component";
+import { TrainComponent } from "./components/train/train.component";
 import { HomeComponent } from "./components/home/home.component";
 import { MeComponent } from "./components/me/me.component";
-import { SoftwareComponent } from "./components/software/software.component";
+import { NutritionComponent } from "./components/nutrition/nutrition.component";
+import { ToolsComponent } from "./components/tools/tools.component";
+import { StoryComponent } from "./components/story/story.component";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
   { path: "home", component: HomeComponent },
   { path: "me", component: MeComponent },
-  { path: "software", component: SoftwareComponent },
+  { path: "story", component: StoryComponent },
   { path: "blog", component: BlogComponent },
   { path: "blog/post/:id", component: BlogPostComponent },
   { path: "site/blog/post/:id", component: BlogPostComponent },
-  { path: "donate", component: DonateComponent },
-  { path: "contact", component: ContactComponent },
+  { path: "train", component: TrainComponent },
+  { path: "nutrition", component: NutritionComponent },
+  { path: "tools", component: ToolsComponent },
 ];
 
 @NgModule({

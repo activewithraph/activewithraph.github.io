@@ -1,0 +1,198 @@
+/* Story page. Needs colors.css and page-header.css (fallbacks included). */
+
+.story {
+  width: min(760px, 90%);
+  margin: 40px auto 80px;
+  color: var(--color-text, #1e293b);
+}
+
+.story p {
+  margin: 0 0 16px;
+  line-height: 1.7;
+}
+
+.story a:not(.story__cta) {
+  color: var(--color-accent, #d63a16);
+  font-weight: 600;
+}
+
+.story a:not(.story__cta):hover {
+  color: var(--color-accent-hover, #b32e10);
+}
+
+.story__back {
+  display: inline-block;
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+}
+
+.story__lead {
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--color-navy, #0f172a);
+}
+
+/* Sections: orange number, bold uppercase heading */
+.story__section {
+  margin-top: 56px;
+}
+
+.story__kicker {
+  margin-bottom: 4px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--color-accent, #d63a16);
+}
+
+.story__heading {
+  margin: 0 0 16px;
+  font-size: clamp(1.5rem, 3vw, 1.9rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-navy, #0f172a);
+}
+
+/* Prompts to replace: remove the class when the real text is in */
+.is-placeholder {
+  font-style: italic;
+  color: var(--color-text-muted, #64748b);
+}
+
+/* Before and after */
+.story__photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 0 0 20px;
+}
+
+.story__figure {
+  margin: 0;
+}
+
+.story__photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+}
+
+.story__photo--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(var(--color-navy, #0f172a), #283550);
+  color: #9ca3ae;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.story__figure figcaption {
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+/* Lessons: numbered with orange discs */
+.story__lessons {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: lesson;
+}
+
+.story__lessons li {
+  position: relative;
+  margin-bottom: 14px;
+  padding-left: 52px;
+  line-height: 1.6;
+  counter-increment: lesson;
+}
+
+.story__lessons li::before {
+  content: counter(lesson);
+  position: absolute;
+  left: 0;
+  top: -2px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-accent-bright, #ff5a36);
+  color: var(--color-navy, #0f172a);
+  font-style: normal;
+  font-weight: 800;
+}
+
+/* Mistakes: the mistake and the fix, side by side in one card */
+.story__mistakes {
+  display: grid;
+  gap: 20px;
+}
+
+.story__mistake {
+  padding: 22px 24px 8px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 16px;
+  background: var(--color-bg, #ffffff);
+}
+
+.story__label {
+  margin-bottom: 4px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent, #d63a16);
+}
+
+.story__label--fix {
+  color: var(--color-navy, #0f172a);
+}
+
+/* Ending */
+.story__end {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 28px;
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+}
+
+.story__endtext {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.story__cta {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--color-accent-bright, #ff5a36);
+  color: var(--color-navy, #0f172a);
+}
+
+.story__cta:hover {
+  background: var(--color-accent, #d63a16);
+  color: #ffffff;
+}
+
+@media screen and (max-width: 520px) {
+  .story__photos {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

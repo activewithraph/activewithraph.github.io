@@ -16,11 +16,17 @@ export class MenuComponent {
   public isMeSelected: boolean = false;
 
   @Input()
-  public isSoftwareSelected: boolean = false;
+  public isTrainSelected: boolean = false;
+
+  @Input()
+  public isNutritionSelected: boolean = false;
 
   @Input()
   public isBlogSelected: boolean = false;
 
+  @Input()
+  public isToolsSelected: boolean = false;
+  
   @Input()
   public isDonateSelected: boolean = false;
 

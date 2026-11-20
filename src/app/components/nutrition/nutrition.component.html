@@ -1,0 +1,31 @@
+<div class="d-flex flex-column w-100 min-vh-100 align-items-center">
+  <div class="page-header d-flex w-100 flex-column">
+    <div class="page-header__top w-100 d-flex p-4">
+      <app-social-media-links></app-social-media-links>
+      <div class="spacer"></div>
+      <app-menu [isNutritionSelected]="true"></app-menu>
+    </div>
+    <h1 class="page-header__title">Nutrition</h1>
+  </div>
+
+  <main class="nutrition">
+    <div class="soon">
+      <div class="soon__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z" />
+          <path d="M10 2c1 .5 2 2 2 5" />
+        </svg>
+      </div>
+      <div class="soon__kicker">Coming soon</div>
+      <h2 class="soon__title">The nutrition tips are in the making</h2>
+      <p class="soon__text">
+        How to track what you eat, what to look at and what to ignore, without making it complicated. I'm putting it together now.
+      </p>
+      <div class="soon__actions">
+        <a class="soon__link" href="/home">&larr; Back to Home</a>
+      </div>
+    </div>
+  </main>
+
+  <app-footer class="w-100 mt-auto"></app-footer>
+</div>

@@ -7,23 +7,25 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { BlogPostComponent } from "./components/blog/blog-post/blog-post.component";
 import { BlogComponent } from "./components/blog/blog.component";
-import { ContactComponent } from "./components/contact/contact.component";
-import { DonateComponent } from "./components/donate/donate.component";
+import { TrainComponent } from "./components/train/train.component";
 import { FooterComponent } from "./components/footer/footer.component";
 import { HomeComponent } from "./components/home/home.component";
 import { MeComponent } from "./components/me/me.component";
 import { MenuComponent } from "./components/menu/menu.component";
 import { SocialMediaLinkComponent } from "./components/social-media-links/social-media-links.component";
-import { SoftwareComponent } from "./components/software/software.component";
+import { StoryComponent } from "./components/story/story.component";
+import { NutritionComponent } from "./components/nutrition/nutrition.component";
+import { ToolsComponent } from "./components/tools/tools.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     MeComponent,
-    SoftwareComponent,
-    DonateComponent,
-    ContactComponent,
+    StoryComponent,
+    TrainComponent,
+    NutritionComponent,
+    ToolsComponent,
     MenuComponent,
     FooterComponent,
     SocialMediaLinkComponent,

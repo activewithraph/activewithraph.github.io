@@ -1,132 +1,107 @@
 <ng-template #content let-offcanvas>
   <div class="offcanvas-header">
-    <div class="spacer"></div>
-    <i
-      class="las la-times la-2x"
-      role="button"
+    <div class="offcanvas-brand">Active <span>with Raph</span></div>
+    <button
+      type="button"
+      class="menu-close"
+      aria-label="Close menu"
       (click)="offcanvas.dismiss()"
-    ></i>
+    >
+      <i class="las la-times la-2x" aria-hidden="true"></i>
+    </button>
   </div>
+
   <div class="offcanvas-body">
-    <div class="d-flex flex-column">
-      <div
-        class="fw-bold m-2"
-        [ngClass]="{
-          'offcanvas-body__selected-text': this.isHomeSelected,
-          'offcanvas-body__text': !this.isHomeSelected,
-        }"
-        role="button"
+    <nav class="offcanvas-nav" aria-label="Main">
+      <a
+        class="offcanvas-link"
+        [ngClass]="{ 'offcanvas-link--selected': isHomeSelected }"
+        [attr.aria-current]="isHomeSelected ? 'page' : null"
         routerLink="/home"
         (click)="offcanvas.dismiss()"
+        >Home</a
       >
-        HOME
-      </div>
-      <!-- <div
-        class="fw-bold m-2"
-        [ngClass]="{
-          'text-accent': this.isSoftwareSelected,
-          'text-white': !this.isSoftwareSelected,
-        }"
-        role="button"
-        routerLink="/software"
-        (click)="offcanvas.dismiss()"
-      >
-        SOFTWARE
-      </div> -->
-      <!-- <div
-        class="fw-bold m-2"
-        [ngClass]="{
-          'text-accent': this.isBlogSelected,
-          'text-white': !this.isBlogSelected,
-        }"
-        role="button"
-        routerLink="/blog"
-        (click)="offcanvas.dismiss()"
-      >
-        BLOG
-      </div> -->
       <a
-        class="fw-bold m-2 text-decoration-none"
-        [ngClass]="{
-          'offcanvas-body__selected-text': this.isMeSelected,
-          'offcanvas-body__text': !this.isMeSelected,
-        }"
-        role="button"
+        class="offcanvas-link"
+        [ngClass]="{ 'offcanvas-link--selected': isTrainSelected }"
+        [attr.aria-current]="isTrainSelected ? 'page' : null"
+        routerLink="/train"
+        (click)="offcanvas.dismiss()"
+        >Train</a
+      >
+      <a
+        class="offcanvas-link"
+        [ngClass]="{ 'offcanvas-link--selected': isNutritionSelected }"
+        [attr.aria-current]="isNutritionSelected ? 'page' : null"
+        routerLink="/nutrition"
+        (click)="offcanvas.dismiss()"
+        >Nutrition</a
+      >
+      <a
+        class="offcanvas-link"
+        [ngClass]="{ 'offcanvas-link--selected': isToolsSelected }"
+        [attr.aria-current]="isToolsSelected ? 'page' : null"
+        routerLink="/tools"
+        (click)="offcanvas.dismiss()"
+        >Tools</a
+      >
+      <a
+        class="offcanvas-link"
+        [ngClass]="{ 'offcanvas-link--selected': isMeSelected }"
+        [attr.aria-current]="isMeSelected ? 'page' : null"
         routerLink="/me"
         (click)="offcanvas.dismiss()"
+        >Me</a
       >
-        ME
-      </a>
-      <!-- <div
-        class="fw-bold m-2"
-        [ngClass]="{
-          'text-accent': this.isContactSelected,
-          'text-white': !this.isContactSelected,
-        }"
-        role="button"
-        routerLink="/contact"
-        (click)="offcanvas.dismiss()"
-      >
-        CONTACT
-      </div> -->
-    </div>
+    </nav>
   </div>
 </ng-template>
 
-<div class="d-flex flex-row">
-  <div class="horizontal-menu d-flex flex-row align-items-center">
-    <div
-      class="fw-bold mx-4"
-      [ngClass]="{
-        'selected-text': this.isHomeSelected,
-      }"
-      role="button"
+<div class="d-flex flex-row align-items-center">
+  <nav class="horizontal-menu" aria-label="Main">
+    <a
+      class="menu-link"
+      [ngClass]="{ 'menu-link--selected': isHomeSelected }"
+      [attr.aria-current]="isHomeSelected ? 'page' : null"
       routerLink="/home"
+      >Home</a
     >
-      HOME
-    </div>
-    <!-- <div
-      class="fw-bold mx-4"
-      [ngClass]="{
-        'text-accent': this.isSoftwareSelected,
-      }"
-      role="button"
-      routerLink="/software"
+    <a
+      class="menu-link"
+      [ngClass]="{ 'menu-link--selected': isTrainSelected }"
+      [attr.aria-current]="isTrainSelected ? 'page' : null"
+      routerLink="/train"
+      >Train</a
     >
-      SOFTWARE
-    </div> -->
-    <!-- <div
-      class="fw-bold mx-4"
-      [ngClass]="{
-        'text-accent': this.isBlogSelected,
-      }"
-      role="button"
-      routerLink="/blog"
+    <a
+      class="menu-link"
+      [ngClass]="{ 'menu-link--selected': isNutritionSelected }"
+      [attr.aria-current]="isNutritionSelected ? 'page' : null"
+      routerLink="/nutrition"
+      >Nutrition</a
     >
-      BLOG
-    </div> -->
-    <div
-      class="fw-bold mx-4 text-decoration-none"
-      [ngClass]="{
-        'selected-text': this.isMeSelected,
-      }"
-      role="button"
+    <a
+      class="menu-link"
+      [ngClass]="{ 'menu-link--selected': isToolsSelected }"
+      [attr.aria-current]="isToolsSelected ? 'page' : null"
+      routerLink="/tools"
+      >Tools</a
+    >
+    <a
+      class="menu-link"
+      [ngClass]="{ 'menu-link--selected': isMeSelected }"
+      [attr.aria-current]="isMeSelected ? 'page' : null"
       routerLink="/me"
+      >Me</a
     >
-      ME
-    </div>
-    <!-- <div
-      class="fw-bold mx-4"
-      [ngClass]="{
-        'text-accent': this.isContactSelected,
-      }"
-      role="button"
-      routerLink="/contact"
-    >
-      CONTACT
-    </div> -->
-  </div>
-  <div class="hamburger-menu" (click)="open(content)">
-    <i class="las la-bars la-2x" role="button"></i>
-  </div>
+  </nav>
+
+  <button
+    type="button"
+    class="hamburger-menu"
+    aria-label="Open menu"
+    (click)="open(content)"
+  >
+    <i class="las la-bars la-2x" aria-hidden="true"></i>
+  </button>
 </div>

@@ -1,0 +1,44 @@
+/* Compact page header shared by Me, Story, Blog, Contact...
+   Load this GLOBALLY (e.g. @import "page-header.css"; in styles.css), not inside a single component. */
+
+.page-header {
+  position: relative;
+  height: 230px;
+  background: var(--banner-sky, linear-gradient(#cbd0dc 0%, #b0b6c2 43%, #b0b4c0 73%, #9ca3ae 93%));
+}
+
+.page-header__top {
+  position: relative;
+  z-index: 2;
+}
+
+/* The menu text must be dark on this light sky; the active item bold with an orange underline, e.g.:
+   .menu-item.active { font-weight: 800; border-bottom: 3px solid var(--color-accent-bright); } */
+
+.page-header__title {
+  margin: 0;
+  padding-top: 8px;
+  text-align: center;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-navy, #0f172a);
+}
+
+.page-header__title::before {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 6px;
+  margin: 0 auto 18px;
+  border-radius: 3px;
+  background: var(--color-accent-bright, #ff5a36);
+}
+
+@media screen and (max-width: 800px) {
+  .page-header {
+    height: 200px;
+  }
+}

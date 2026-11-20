@@ -1,0 +1,35 @@
+<div class="d-flex flex-column w-100 min-vh-100 align-items-center">
+  <div class="page-header d-flex w-100 flex-column">
+    <div class="page-header__top w-100 d-flex p-4">
+      <app-social-media-links></app-social-media-links>
+      <div class="spacer"></div>
+      <app-menu [isTrainSelected]="true"></app-menu>
+    </div>
+    <h1 class="page-header__title">Train</h1>
+  </div>
+
+  <main class="train">
+    <div class="soon">
+      <div class="soon__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="7.5" x2="16.5" y1="12" y2="12" />
+          <rect x="5" y="6" width="2.5" height="12" rx="1" />
+          <rect x="2" y="9" width="2" height="6" rx="0.8" />
+          <rect x="16.5" y="6" width="2.5" height="12" rx="1" />
+          <rect x="20" y="9" width="2" height="6" rx="0.8" />
+        </svg>
+      </div>
+      <div class="soon__kicker">Coming soon</div>
+      <h2 class="soon__title">The training guides are in the making</h2>
+      <p class="soon__text">
+        Which exercises train what, plans that fit a busy schedule and workouts you can do at home.
+        I'm putting them together now.
+      </p>
+      <div class="soon__actions">
+        <a class="soon__link" href="/home">&larr; Back to Home</a>
+      </div>
+    </div>
+  </main>
+
+  <app-footer class="w-100 mt-auto"></app-footer>
+</div>

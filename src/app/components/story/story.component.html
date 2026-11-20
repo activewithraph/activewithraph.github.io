@@ -1,0 +1,104 @@
+<!-- Story page, reached from the "Read my story" button on the Me page (route e.g. /story).
+     It uses the shared .page-header styles from page-header.css (load that one globally) plus story.css.
+     Everything with class "is-placeholder" is a prompt for you to replace with your own words;
+     remove that class once you have written the real text. -->
+<div class="d-flex flex-column w-100 min-vh-100 align-items-center">
+  <div class="page-header d-flex w-100 flex-column">
+    <div class="page-header__top w-100 d-flex p-4">
+      <app-social-media-links></app-social-media-links>
+      <div class="spacer"></div>
+      <app-menu [isMeSelected]="true"></app-menu>
+    </div>
+    <h1 class="page-header__title">My story</h1>
+  </div>
+
+  <main class="story">
+    <a class="story__back" href="/me">&larr; Back to Me</a>
+
+    <p class="story__lead">
+      The short version is on the Me page. This is the longer one, including the parts that didn't go to plan.
+    </p>
+
+    <section class="story__section">
+      <div class="story__kicker">01</div>
+      <h2 class="story__heading">Where I started</h2>
+      <p class="is-placeholder">
+        Write 2 to 4 sentences about your starting point: how fit you were, what your days looked like and how you felt.
+      </p>
+    </section>
+
+    <section class="story__section">
+      <div class="story__kicker">02</div>
+      <h2 class="story__heading">The turning point</h2>
+      <p class="is-placeholder">
+        What made you start? A moment, a person, a photo, a health check? Keep it specific.
+      </p>
+    </section>
+
+    <section class="story__section">
+      <div class="story__kicker">03</div>
+      <h2 class="story__heading">What I do now</h2>
+      <p class="is-placeholder">
+        A few lines on your week: strength, running, cycling and how you fit it around your schedule.
+      </p>
+      <p>More on how I train in the <a href="/train">Train section</a>.</p>
+    </section>
+
+    <section class="story__section">
+      <div class="story__kicker">04</div>
+      <h2 class="story__heading">Before and after</h2>
+      <div class="story__photos">
+        <figure class="story__figure">
+          <!-- replace this div with <img src="assets/images/story-before.jpg" alt="Raph before" /> -->
+          <div class="story__photo story__photo--placeholder">Before photo</div>
+          <figcaption class="is-placeholder">[Date] &middot; a short note</figcaption>
+        </figure>
+        <figure class="story__figure">
+          <!-- replace this div with <img src="assets/images/story-after.jpg" alt="Raph after" /> -->
+          <div class="story__photo story__photo--placeholder">After photo</div>
+          <figcaption class="is-placeholder">[Date] &middot; a short note</figcaption>
+        </figure>
+      </div>
+      <p class="is-placeholder">
+        How long it took, and what mattered more than the way it looks: the habits, not the photo.
+      </p>
+    </section>
+
+    <section class="story__section">
+      <div class="story__kicker">05</div>
+      <h2 class="story__heading">What I learned</h2>
+      <ol class="story__lessons">
+        <li class="is-placeholder">Lesson one, in one or two sentences.</li>
+        <li class="is-placeholder">Lesson two.</li>
+        <li class="is-placeholder">Lesson three.</li>
+      </ol>
+    </section>
+
+    <section class="story__section">
+      <div class="story__kicker">06</div>
+      <h2 class="story__heading">Mistakes I made</h2>
+      <div class="story__mistakes">
+        <div class="story__mistake">
+          <div class="story__label">The mistake</div>
+          <p class="is-placeholder">What went wrong.</p>
+          <div class="story__label story__label--fix">What I do now</div>
+          <p class="is-placeholder">What you changed.</p>
+        </div>
+        <div class="story__mistake">
+          <div class="story__label">The mistake</div>
+          <p class="is-placeholder">Another one.</p>
+          <div class="story__label story__label--fix">What I do now</div>
+          <p class="is-placeholder">What you changed.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="story__end">
+      <p class="story__endtext is-placeholder">A closing line: what you would tell someone who is just starting.</p>
+      <a class="story__cta" href="/train">Explore the training guides</a>
+      <a class="story__link" href="/blog">Read the blog</a>
+    </div>
+  </main>
+
+  <app-footer class="w-100 mt-auto"></app-footer>
+</div>

@@ -1,0 +1,70 @@
+/* Nutrition page "coming soon" block. Needs colors.css and page-header.css (fallbacks included).
+   Reuse for Nutrition and Tools: change the icon, title and text. */
+
+.nutrition {
+  display: flex;
+  justify-content: center;
+  width: min(560px, 90%);
+  margin: 72px auto 96px;
+}
+
+.soon {
+  text-align: center;
+  color: var(--color-text, #1e293b);
+}
+
+.soon__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 104px;
+  height: 104px;
+  margin: 0 auto 28px;
+  border-radius: 50%;
+  background: linear-gradient(var(--color-navy, #0f172a), #283550);
+  color: var(--color-accent-bright, #ff5a36);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+}
+
+.soon__icon svg {
+  width: 56px;
+}
+
+.soon__kicker {
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent, #d63a16);
+}
+
+.soon__title {
+  margin: 0 0 16px;
+  font-size: clamp(1.5rem, 3vw, 1.9rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--color-navy, #0f172a);
+}
+
+.soon__text {
+  margin: 0 0 32px;
+  line-height: 1.65;
+}
+
+.soon__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px 28px;
+}
+
+.soon__link {
+  font-weight: 600;
+  color: var(--color-accent, #d63a16);
+}
+
+.soon__link:hover {
+  color: var(--color-accent-hover, #b32e10);
+}
