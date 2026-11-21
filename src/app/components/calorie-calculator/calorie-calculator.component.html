@@ -1,0 +1,165 @@
+<div class="calc">
+  <form class="calc__form" [formGroup]="form" novalidate>
+    <!-- 1. About you -->
+    <fieldset class="card">
+      <legend class="step"><span class="step__num">1</span>About you</legend>
+
+      <div class="field">
+        <span class="field__label" id="units-label">Units</span>
+        <div class="seg" role="radiogroup" aria-labelledby="units-label">
+          <label *ngFor="let u of unitOptions"><input type="radio" formControlName="units" [value]="u.value" /><span>{{ u.label }}</span></label>
+        </div>
+        <p class="field__hint">{{ isImperial ? 'Pounds, feet and inches.' : 'Kilograms and centimetres.' }}</p>
+      </div>
+
+      <div class="field field--spaced">
+        <span class="field__label" id="sex-label">Sex</span>
+        <div class="seg" role="radiogroup" aria-labelledby="sex-label">
+          <label><input type="radio" formControlName="sex" value="male" /><span>Male</span></label>
+          <label><input type="radio" formControlName="sex" value="female" /><span>Female</span></label>
+        </div>
+        <p class="field__hint">Used in the formula for resting energy (Mifflin-St Jeor).</p>
+      </div>
+
+      <div class="fields">
+        <div class="field">
+          <label class="field__label" for="age">Age</label>
+          <div class="box"><input id="age" type="number" inputmode="numeric" formControlName="age" /><span class="box__unit">years</span></div>
+          <p class="field__error" *ngIf="showError(form.controls.age)">Enter an age between 18 and 99.</p>
+        </div>
+
+        <!-- Height -->
+        <div class="field" *ngIf="!isImperial">
+          <label class="field__label" for="height">Height</label>
+          <div class="box"><input id="height" type="number" inputmode="numeric" formControlName="heightCm" /><span class="box__unit">cm</span></div>
+          <p class="field__error" *ngIf="showError(form.controls.heightCm)">Enter a height between 120 and 230 cm.</p>
+        </div>
+        <div class="field" *ngIf="isImperial">
+          <label class="field__label" for="height-ft">Height</label>
+          <div class="pair">
+            <div class="box"><input id="height-ft" type="number" inputmode="numeric" formControlName="heightFt" aria-label="Feet" /><span class="box__unit">ft</span></div>
+            <div class="box"><input id="height-in" type="number" inputmode="numeric" formControlName="heightIn" aria-label="Inches" /><span class="box__unit">in</span></div>
+          </div>
+          <p class="field__error" *ngIf="showError(form.controls.heightFt) || showError(form.controls.heightIn)">Enter 4 to 7 feet and 0 to 11 inches.</p>
+        </div>
+
+        <!-- Weight -->
+        <div class="field" *ngIf="!isImperial">
+          <label class="field__label" for="weight">Weight</label>
+          <div class="box"><input id="weight" type="number" inputmode="decimal" step="0.1" formControlName="weightKg" /><span class="box__unit">kg</span></div>
+          <p class="field__error" *ngIf="showError(form.controls.weightKg)">Enter a weight between 35 and 250 kg.</p>
+        </div>
+        <div class="field" *ngIf="isImperial">
+          <label class="field__label" for="weight-lb">Weight</label>
+          <div class="box"><input id="weight-lb" type="number" inputmode="decimal" step="0.1" formControlName="weightLb" /><span class="box__unit">lb</span></div>
+          <p class="field__error" *ngIf="showError(form.controls.weightLb)">Enter a weight between 77 and 550 lb.</p>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- 2. Daily life -->
+    <fieldset class="card">
+      <legend class="step"><span class="step__num">2</span>Your day, outside workouts</legend>
+      <p class="card__intro">Don't count your training here, that comes next. Check your step count in your phone's health app if you can.</p>
+      <div class="choices">
+        <label class="choice" *ngFor="let option of dailyOptions">
+          <input type="radio" formControlName="dailyActivity" [value]="option.value" />
+          <span class="choice__body">
+            <span class="choice__title">{{ option.title }}</span>
+            <span class="choice__text">{{ option.text }}</span>
+          </span>
+        </label>
+      </div>
+    </fieldset>
+
+    <!-- 3. Workouts -->
+    <fieldset class="card">
+      <legend class="step"><span class="step__num">3</span>Your workouts</legend>
+      <p class="card__intro">
+        Add each kind of workout you do in a typical week. No workouts? Skip this step.
+      </p>
+
+      <div formArrayName="workouts">
+        <div class="workout" *ngFor="let workout of workouts.controls; let i = index" [formGroupName]="i">
+          <div class="field">
+            <label class="field__label" [for]="'type-' + i">Type</label>
+            <select class="select" [id]="'type-' + i" formControlName="type">
+              <option *ngFor="let t of workoutTypes" [value]="t.value">{{ t.label }}</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="field__label" [for]="'intensity-' + i">Intensity</label>
+            <select class="select" [id]="'intensity-' + i" formControlName="intensity">
+              <option *ngFor="let n of intensities" [value]="n.value">{{ n.label }}</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="field__label" [for]="'sessions-' + i">Per week</label>
+            <div class="box"><input [id]="'sessions-' + i" type="number" inputmode="numeric" formControlName="sessionsPerWeek" /><span class="box__unit">×</span></div>
+          </div>
+          <div class="field">
+            <label class="field__label" [for]="'minutes-' + i">Duration</label>
+            <div class="box"><input [id]="'minutes-' + i" type="number" inputmode="numeric" formControlName="minutes" /><span class="box__unit">min</span></div>
+          </div>
+          <button type="button" class="workout__remove" (click)="removeWorkout(i)" [attr.aria-label]="'Remove workout ' + (i + 1)">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+          </button>
+          <p class="field__error workout__error" *ngIf="workout.invalid && workout.touched">
+            Use 1 to 14 sessions a week and 10 to 240 minutes per session.
+          </p>
+        </div>
+      </div>
+
+      <button type="button" class="add" (click)="addWorkout()" [disabled]="!canAddWorkout">+ Add a workout</button>
+
+      <p class="field__hint">
+        Easy: you can chat comfortably. Moderate: you can speak in short sentences. Hard: talking is difficult.
+        For strength, think light weights and long rests (easy) up to heavy sets with short rests (hard).
+      </p>
+    </fieldset>
+
+    <!-- 4. Goal -->
+    <fieldset class="card">
+      <legend class="step"><span class="step__num">4</span>Your goal</legend>
+      <div class="seg seg--wide" role="radiogroup" aria-label="Goal">
+        <label *ngFor="let g of goals"><input type="radio" formControlName="goal" [value]="g.value" /><span>{{ g.label }}</span></label>
+      </div>
+    </fieldset>
+  </form>
+
+  <aside class="calc__aside">
+    <section class="result" aria-live="polite" aria-labelledby="result-title">
+      <h2 class="result__title" id="result-title">Your daily target</h2>
+
+      <ng-container *ngIf="result; else empty">
+        <div class="result__number">{{ result.target | number: '1.0-0' }}<span> kcal</span></div>
+        <p class="result__goal">{{ goalText }}</p>
+
+        <p class="result__warning" *ngIf="result.floorApplied">
+          Your target is held at {{ result.floor | number: '1.0-0' }} kcal. Going lower isn't advisable without
+          guidance from a doctor or dietitian.
+        </p>
+
+        <dl class="result__rows">
+          <div><dt>Resting energy</dt><dd>{{ result.bmr | number: '1.0-0' }}</dd></div>
+          <div><dt>Daily life</dt><dd>+ {{ result.dailyLife | number: '1.0-0' }}</dd></div>
+          <div><dt>Workouts (daily average)</dt><dd>+ {{ result.workouts | number: '1.0-0' }}</dd></div>
+          <div class="result__total"><dt>Maintenance</dt><dd>{{ result.maintenance | number: '1.0-0' }}</dd></div>
+          <div *ngIf="result.goalChange !== 0">
+            <dt>Goal adjustment</dt>
+            <dd>{{ result.goalChange > 0 ? '+' : '−' }} {{ (result.goalChange < 0 ? -result.goalChange : result.goalChange) | number: '1.0-0' }}</dd>
+          </div>
+        </dl>
+      </ng-container>
+
+      <ng-template #empty>
+        <p class="result__empty">Fill in the steps and your result shows up here.</p>
+      </ng-template>
+    </section>
+
+    <p class="calc__note">
+      This is an estimate, usually within 10 to 15%. Treat it as a starting point: eat this amount for 2 to 3 weeks,
+      watch your weight trend, and adjust by 100 to 150 kcal if needed. It is not medical advice.
+    </p>
+  </aside>
+</div>

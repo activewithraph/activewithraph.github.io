@@ -7,6 +7,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { BlogPostComponent } from "./components/blog/blog-post/blog-post.component";
 import { BlogComponent } from "./components/blog/blog.component";
+import { CalorieCalculatorComponent } from "./components/calorie-calculator/calorie-calculator.component";
 import { TrainComponent } from "./components/train/train.component";
 import { FooterComponent } from "./components/footer/footer.component";
 import { HomeComponent } from "./components/home/home.component";
@@ -16,6 +17,7 @@ import { SocialMediaLinkComponent } from "./components/social-media-links/social
 import { StoryComponent } from "./components/story/story.component";
 import { NutritionComponent } from "./components/nutrition/nutrition.component";
 import { ToolsComponent } from "./components/tools/tools.component";
+import { ToolsCaloriesComponent } from "./components/tools-calories/tools-calories.component";
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { ToolsComponent } from "./components/tools/tools.component";
     TrainComponent,
     NutritionComponent,
     ToolsComponent,
+    ToolsCaloriesComponent,
     MenuComponent,
     FooterComponent,
     SocialMediaLinkComponent,
@@ -37,6 +40,7 @@ import { ToolsComponent } from "./components/tools/tools.component";
     HttpClientModule,
     AppRoutingModule,
     NgbModule,
+    CalorieCalculatorComponent,
     MarkdownModule.forRoot({ loader: HttpClient }),
   ],
   providers: [],

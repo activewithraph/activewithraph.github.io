@@ -1,0 +1,480 @@
+/* Calorie calculator. Needs colors.css (fallbacks included). */
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.calc {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 32px;
+  width: min(1000px, 90%);
+  margin: 24px auto 80px;
+  align-items: start;
+  color: var(--color-text, #1e293b);
+}
+
+/* ---------- Step cards ---------- */
+
+.card {
+  min-width: 0;
+  margin: 0 0 20px;
+  padding: 24px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 16px;
+  background: var(--color-bg, #ffffff);
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  float: left; /* keeps the legend inside the card padding in every browser */
+  width: 100%;
+  margin: 0 0 16px;
+  padding: 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-navy, #0f172a);
+}
+
+.step + * {
+  clear: both;
+}
+
+.step__num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--color-accent-bright, #ff5a36);
+  color: var(--color-navy, #0f172a);
+  font-size: 0.95rem;
+}
+
+.card__intro {
+  margin: 0 0 16px;
+  line-height: 1.55;
+  color: var(--color-text-muted, #64748b);
+}
+
+/* ---------- Fields ---------- */
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.field {
+  min-width: 0;
+}
+
+.field__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-navy, #0f172a);
+}
+
+.field__hint {
+  margin: 10px 0 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--color-text-muted, #64748b);
+}
+
+.field__error {
+  margin: 6px 0 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-accent, #d63a16);
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background: #ffffff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.box:focus-within,
+.select:focus {
+  border-color: var(--color-navy, #0f172a);
+  box-shadow: 0 0 0 3px rgba(255, 90, 54, 0.35);
+  outline: none;
+}
+
+.box input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  padding: 0 0 0 14px;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: var(--color-navy, #0f172a);
+  outline: none;
+  -moz-appearance: textfield;
+}
+
+.box input::-webkit-outer-spin-button,
+.box input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.box__unit {
+  padding: 0 14px 0 8px;
+  font-size: 0.9rem;
+  color: var(--color-text-muted, #64748b);
+}
+
+.select {
+  width: 100%;
+  height: 48px;
+  padding: 0 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background: #ffffff;
+  font: inherit;
+  color: var(--color-navy, #0f172a);
+}
+
+.field--spaced {
+  margin-top: 20px;
+}
+
+/* Feet and inches side by side */
+.pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+}
+
+.pair .box__unit {
+  padding: 0 10px 0 4px;
+}
+
+/* ---------- Segmented radio buttons ---------- */
+
+.seg {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: #f1f5f9;
+}
+
+.seg--wide {
+  display: flex;
+}
+
+.seg--wide label {
+  flex: 1;
+}
+
+.seg label {
+  display: block;
+  position: relative;
+}
+
+.seg input,
+.choice input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.seg span {
+  display: block;
+  padding: 10px 22px;
+  border-radius: 999px;
+  text-align: center;
+  font-weight: 600;
+  color: var(--color-navy, #0f172a);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.seg label:hover input:not(:checked) + span {
+  background: #e2e8f0;
+}
+
+.seg input:checked + span {
+  background: var(--color-navy, #0f172a);
+  color: #ffffff;
+}
+
+.seg input:focus-visible + span,
+.choice input:focus-visible + .choice__body {
+  outline: 3px solid var(--color-accent-bright, #ff5a36);
+  outline-offset: 2px;
+}
+
+/* ---------- Daily life choices ---------- */
+
+.choices {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.choice {
+  position: relative;
+  display: block;
+}
+
+.choice__body {
+  display: block;
+  height: 100%;
+  padding: 16px;
+  border: 2px solid var(--color-border, #e2e8f0);
+  border-radius: 14px;
+  background: #ffffff;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.choice:hover .choice__body {
+  border-color: #cbd5e1;
+}
+
+.choice input:checked + .choice__body {
+  border-color: var(--color-accent-bright, #ff5a36);
+  background: #fff6f3;
+}
+
+.choice__title {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 800;
+  color: var(--color-navy, #0f172a);
+}
+
+.choice__text {
+  display: block;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--color-text-muted, #64748b);
+}
+
+/* ---------- Workout rows ---------- */
+
+.workout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 0.8fr 0.9fr auto;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.workout__error {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.workout__remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-text-muted, #64748b);
+  cursor: pointer;
+}
+
+.workout__remove:hover {
+  color: var(--color-accent, #d63a16);
+  background: #f1f5f9;
+}
+
+.workout__remove:focus-visible,
+.add:focus-visible {
+  outline: 3px solid var(--color-accent-bright, #ff5a36);
+  outline-offset: 2px;
+}
+
+.add {
+  padding: 10px 20px;
+  border: 2px solid var(--color-accent-bright, #ff5a36);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
+  color: var(--color-navy, #0f172a);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.add:hover:not(:disabled) {
+  background: #fff6f3;
+}
+
+.add:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ---------- Result ---------- */
+
+.calc__aside {
+  position: sticky;
+  top: 24px;
+}
+
+.result {
+  padding: 28px;
+  border-radius: 16px;
+  background: linear-gradient(var(--color-navy, #0f172a), #283550);
+  color: #ffffff;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+}
+
+.result__title {
+  margin: 0 0 12px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent-bright, #ff5a36);
+}
+
+.result__number {
+  font-size: 3.2rem;
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.result__number span {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-accent-bright, #ff5a36);
+}
+
+.result__goal {
+  margin: 8px 0 20px;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+.result__warning {
+  margin: 0 0 20px;
+  padding: 12px 14px;
+  border-left: 4px solid var(--color-accent-bright, #ff5a36);
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.result__rows {
+  margin: 0;
+}
+
+.result__rows div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.result__rows dt {
+  color: #cbd5e1;
+}
+
+.result__rows dd {
+  margin: 0;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.result__total dt,
+.result__total dd {
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.result__empty {
+  margin: 0;
+  line-height: 1.6;
+  color: #cbd5e1;
+}
+
+.calc__note {
+  margin: 16px 4px 0;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--color-text-muted, #64748b);
+}
+
+/* ---------- Smaller screens ---------- */
+
+@media screen and (max-width: 900px) {
+  .calc {
+    grid-template-columns: minmax(0, 1fr);
+    margin: 32px auto 56px;
+  }
+
+  .calc__aside {
+    position: static;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .card {
+    padding: 20px;
+  }
+
+  .fields,
+  .choices {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .fields {
+    gap: 12px;
+  }
+
+  .workout {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .workout__remove {
+    grid-column: 1 / -1;
+    justify-self: end;
+    width: auto;
+    height: 40px;
+  }
+
+  .seg:not(.seg--wide) {
+    display: flex;
+  }
+
+  .seg:not(.seg--wide) label {
+    flex: 1;
+  }
+
+  .seg--wide span {
+    padding: 10px 6px;
+    font-size: 0.9rem;
+  }
+}

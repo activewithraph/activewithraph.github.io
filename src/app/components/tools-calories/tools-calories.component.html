@@ -1,0 +1,19 @@
+<div class="d-flex flex-column w-100 min-vh-100 align-items-center">
+  <div class="page-header d-flex w-100 flex-column">
+    <div class="page-header__top w-100 d-flex p-4">
+      <app-social-media-links></app-social-media-links>
+      <div class="spacer"></div>
+      <app-menu [isToolsSelected]="true"></app-menu>
+    </div>
+    <h1 class="page-header__title">Calorie calculator</h1>
+  </div>
+
+  <main class="w-100">
+    <div class="back">
+      <a routerLink="/tools">&larr; Back to tools</a>
+    </div>
+    <app-calorie-calculator></app-calorie-calculator>
+  </main>
+
+  <app-footer class="w-100 mt-auto"></app-footer>
+</div>

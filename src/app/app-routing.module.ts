@@ -8,6 +8,7 @@ import { MeComponent } from "./components/me/me.component";
 import { NutritionComponent } from "./components/nutrition/nutrition.component";
 import { ToolsComponent } from "./components/tools/tools.component";
 import { StoryComponent } from "./components/story/story.component";
+import { ToolsCaloriesComponent } from "./components/tools-calories/tools-calories.component";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: "train", component: TrainComponent },
   { path: "nutrition", component: NutritionComponent },
   { path: "tools", component: ToolsComponent },
+  { path: "tools/calories", component: ToolsCaloriesComponent },
 ];
 
 @NgModule({
