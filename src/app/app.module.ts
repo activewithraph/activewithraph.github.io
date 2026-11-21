@@ -1,4 +1,6 @@
 import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { ToolsHeartRateComponent } from "./tools-heart-rate/tools-heart-rate.component";
+import { HeartRateCalculatorComponent } from "./components/heart-rate-calculator/heart-rate-calculator.component";
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -34,6 +36,7 @@ import { ToolsCaloriesComponent } from "./components/tools-calories/tools-calori
     SocialMediaLinkComponent,
     BlogComponent,
     BlogPostComponent,
+    ToolsHeartRateComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ import { ToolsCaloriesComponent } from "./components/tools-calories/tools-calori
     AppRoutingModule,
     NgbModule,
     CalorieCalculatorComponent,
+    HeartRateCalculatorComponent,
     MarkdownModule.forRoot({ loader: HttpClient }),
   ],
   providers: [],

@@ -1,0 +1,109 @@
+<div class="hr">
+  <form class="hr__form" [formGroup]="form" novalidate>
+    <!-- 1. About you -->
+    <fieldset class="card">
+      <legend class="step"><span class="step__num">1</span>About you</legend>
+
+      <div class="fields">
+        <div class="field">
+          <label class="field__label" for="age">Age</label>
+          <div class="box"><input id="age" type="number" inputmode="numeric" formControlName="age" /><span class="box__unit">years</span></div>
+          <p class="field__error" *ngIf="showError(form.controls.age)">Enter an age between 18 and 99.</p>
+        </div>
+        <div class="field">
+          <label class="field__label" for="resting">Resting heart rate</label>
+          <div class="box"><input id="resting" type="number" inputmode="numeric" formControlName="restingHr" /><span class="box__unit">bpm</span></div>
+          <p class="field__error" *ngIf="showError(form.controls.restingHr)">Enter a value between 30 and 120 bpm.</p>
+        </div>
+      </div>
+      <p class="field__hint">
+        Measure your resting heart rate right after waking up, before you get out of bed. Take the average of a few
+        mornings. Most watches also show it.
+      </p>
+    </fieldset>
+
+    <!-- 2. Max heart rate -->
+    <fieldset class="card">
+      <legend class="step"><span class="step__num">2</span>Your max heart rate</legend>
+      <div class="choices">
+        <label class="choice">
+          <input type="radio" formControlName="maxSource" value="estimate" />
+          <span class="choice__body">
+            <span class="choice__title">Estimate it</span>
+            <span class="choice__text">From your age: 208 − 0.7 × age.</span>
+          </span>
+        </label>
+        <label class="choice">
+          <input type="radio" formControlName="maxSource" value="measured" />
+          <span class="choice__body">
+            <span class="choice__title">I know it</span>
+            <span class="choice__text">From an all-out test or the highest value on your watch.</span>
+          </span>
+        </label>
+      </div>
+
+      <div class="field field--spaced" *ngIf="isMeasured">
+        <label class="field__label" for="max">Max heart rate</label>
+        <div class="box"><input id="max" type="number" inputmode="numeric" formControlName="measuredMaxHr" /><span class="box__unit">bpm</span></div>
+        <p class="field__error" *ngIf="showError(form.controls.measuredMaxHr)">Enter a value between 120 and 230 bpm.</p>
+      </div>
+
+      <p class="field__hint">
+        A measured max is better than an estimate, which can be off by 10 bpm or more for one person.
+      </p>
+    </fieldset>
+  </form>
+
+  <section class="zones" aria-live="polite" aria-labelledby="zones-title">
+    <h2 class="zones__title" id="zones-title">Your heart rate zones</h2>
+
+    <ng-container *ngIf="result; else empty">
+      <dl class="summary">
+        <div>
+          <dt>Max</dt>
+          <dd>{{ result.maxHr }} <span>bpm</span></dd>
+          <dd class="summary__note">{{ result.maxSource === 'measured' ? 'measured' : 'estimated' }}</dd>
+        </div>
+        <div>
+          <dt>Resting</dt>
+          <dd>{{ result.restingHr }} <span>bpm</span></dd>
+        </div>
+        <div>
+          <dt>Reserve</dt>
+          <dd>{{ result.reserve }} <span>bpm</span></dd>
+        </div>
+      </dl>
+
+      <ol class="zone-list">
+        <li class="zone" *ngFor="let z of result.zones" [ngClass]="'zone--' + z.zone">
+          <div class="zone__badge"><span class="sr-only">Zone </span>{{ z.zone }}</div>
+          <div class="zone__main">
+            <div class="zone__head">
+              <h3 class="zone__name">{{ z.name }}</h3>
+              <div class="zone__range">{{ z.low }}–{{ z.high }} <span>bpm</span></div>
+            </div>
+            <div class="zone__bar" aria-hidden="true">
+              <span class="zone__fill" [style.left.%]="barLeft(z)" [style.width.%]="barWidth(z)"></span>
+            </div>
+            <p class="zone__feel">{{ z.feel }}</p>
+            <p class="zone__use">{{ z.use }}</p>
+          </div>
+        </li>
+      </ol>
+    </ng-container>
+
+    <ng-template #empty>
+      <p class="zones__warning" *ngIf="reserveTooSmall">
+        Your max and resting heart rate are less than {{ minReserve }} bpm apart, so zones can't be calculated.
+        Check both values.
+      </p>
+      <p class="zones__empty" *ngIf="!reserveTooSmall">Fill in the steps and your zones show up here.</p>
+    </ng-template>
+
+    <p class="zones__note">
+      Zones work best for running and cycling. In strength training your heart rate lags behind the effort, so go by
+      how many reps you have left instead. These are estimates, not medical advice. If you take heart medication or
+      have a heart condition, ask your doctor which zones are safe for you.
+    </p>
+  </section>
+</div>

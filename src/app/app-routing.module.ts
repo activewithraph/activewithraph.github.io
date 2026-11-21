@@ -9,6 +9,7 @@ import { NutritionComponent } from "./components/nutrition/nutrition.component";
 import { ToolsComponent } from "./components/tools/tools.component";
 import { StoryComponent } from "./components/story/story.component";
 import { ToolsCaloriesComponent } from "./components/tools-calories/tools-calories.component";
+import { ToolsHeartRateComponent } from "./tools-heart-rate/tools-heart-rate.component";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: "nutrition", component: NutritionComponent },
   { path: "tools", component: ToolsComponent },
   { path: "tools/calories", component: ToolsCaloriesComponent },
+  { path: "tools/heart-rate-zones", component: ToolsHeartRateComponent },
 ];
 
 @NgModule({
