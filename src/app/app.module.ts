@@ -1,5 +1,5 @@
 import { HttpClient, HttpClientModule } from "@angular/common/http";
-import { ToolsHeartRateComponent } from "./tools-heart-rate/tools-heart-rate.component";
+import { ToolsHeartRateComponent } from "./components/tools-heart-rate/tools-heart-rate.component";
 import { HeartRateCalculatorComponent } from "./components/heart-rate-calculator/heart-rate-calculator.component";
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";

@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Goal } from '../calorie-calculator/calorie.logic';
 import { UnitSystem, kgToLb, lbToKg, round1 } from '../calorie-calculator/units';
-import { FatShare, MacroResult, calculateMacros } from './macros.logic';
+import { EatingStyle, MacroResult, calculateMacros } from './macros.logic';
 
 /** Same key as the calorie calculator, so the visitor picks metric or imperial only once. */
 const UNITS_STORAGE_KEY = 'activewithraph.units';
@@ -15,7 +15,7 @@ const UNITS_STORAGE_KEY = 'activewithraph.units';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './macro-calculator.component.html',
-  styleUrls: ['./macro-calculator.component.scss'],
+  styleUrls: ['./macro-calculator.component.css'],
 })
 export class MacroCalculatorComponent implements OnDestroy {
   readonly unitOptions: { value: UnitSystem; label: string }[] = [
@@ -24,15 +24,15 @@ export class MacroCalculatorComponent implements OnDestroy {
   ];
 
   readonly goals: { value: Goal; label: string }[] = [
-    { value: 'lose', label: 'Lose weight' },
-    { value: 'maintain', label: 'Maintain weight' },
+    { value: 'lose', label: 'Lose' },
+    { value: 'maintain', label: 'Maintain' },
     { value: 'gain', label: 'Build muscle' },
   ];
 
-  readonly fatOptions: { value: FatShare; title: string; text: string }[] = [
-    { value: 'lower', title: 'More carbs', text: 'About 20% of calories from fat. Good for hard training and long runs.' },
-    { value: 'balanced', title: 'Balanced', text: 'About 25% of calories from fat. A good default.' },
-    { value: 'higher', title: 'More fat', text: 'About 35% of calories from fat, fewer carbs.' },
+  readonly styleOptions: { value: EatingStyle; title: string; text: string }[] = [
+    { value: 'balanced', title: 'Balanced', text: 'A good all-round split. The default.' },
+    { value: 'endurance', title: 'Endurance', text: 'More carbs, to fuel long runs and rides.' },
+    { value: 'muscle', title: 'Muscle', text: 'More protein, to support muscle growth and recovery.' },
   ];
 
   /** Weight exists once per unit system; only the active one is enabled (disabled controls are ignored by validation). */
@@ -42,7 +42,7 @@ export class MacroCalculatorComponent implements OnDestroy {
     weightKg: new FormControl<number | null>(null, [Validators.required, Validators.min(35), Validators.max(250)]),
     weightLb: new FormControl<number | null>(null, [Validators.required, Validators.min(77), Validators.max(550)]),
     goal: new FormControl<Goal>('maintain', { nonNullable: true }),
-    fatShare: new FormControl<FatShare>('balanced', { nonNullable: true }),
+    style: new FormControl<EatingStyle>('balanced', { nonNullable: true }),
   });
 
   /** null until the form is valid. */
@@ -64,13 +64,13 @@ export class MacroCalculatorComponent implements OnDestroy {
         this.saveUnits(units);
       })
     );
-    // Building muscle needs carbs to fuel the training, so suggest "More carbs" for that goal. This only happens
-    // as long as the visitor hasn't chosen a carb/fat option themselves.
+    // Suggest the "Muscle" focus when the goal is Build muscle. This only happens as long as the visitor
+    // hasn't chosen a focus themselves.
     this.subscriptions.add(
       this.form.controls.goal.valueChanges.subscribe((goal) => {
-        const fat = this.form.controls.fatShare;
-        if (!fat.dirty) {
-          fat.setValue(goal === 'gain' ? 'lower' : 'balanced', { emitEvent: false });
+        const style = this.form.controls.style;
+        if (!style.dirty) {
+          style.setValue(goal === 'gain' ? 'muscle' : 'balanced', { emitEvent: false });
         }
       })
     );
@@ -123,7 +123,7 @@ export class MacroCalculatorComponent implements OnDestroy {
       calories: v.calories as number,
       weightKg,
       goal: v.goal,
-      fatShare: v.fatShare,
+      style: v.style,
     });
 
     if (result) {

@@ -9,7 +9,7 @@ import { NutritionComponent } from "./components/nutrition/nutrition.component";
 import { ToolsComponent } from "./components/tools/tools.component";
 import { StoryComponent } from "./components/story/story.component";
 import { ToolsCaloriesComponent } from "./components/tools-calories/tools-calories.component";
-import { ToolsHeartRateComponent } from "./tools-heart-rate/tools-heart-rate.component";
+import { ToolsHeartRateComponent } from "./components/tools-heart-rate/tools-heart-rate.component";
 import { ToolsMacrosComponent } from "./components/tools-macros/tools-macros.component";
 
 const routes: Routes = [

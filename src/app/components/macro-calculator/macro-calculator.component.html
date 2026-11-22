@@ -43,15 +43,15 @@
       <div class="seg seg--wide" role="radiogroup" aria-label="Goal">
         <label *ngFor="let g of goals"><input type="radio" formControlName="goal" [value]="g.value" /><span>{{ g.label }}</span></label>
       </div>
-      <p class="field__hint">Your goal sets how much protein you get: more while losing weight, to hold on to muscle, and while building it. Choosing Build muscle also suggests the carb-rich option below.</p>
+      <p class="field__hint">Your goal sets how much protein you get: more while losing weight, to hold on to muscle, and while building it. Choosing Build muscle also suggests the Muscle focus below.</p>
     </fieldset>
 
-    <!-- 4. Fat or carbs -->
+    <!-- 4. Focus -->
     <fieldset class="card">
-      <legend class="step"><span class="step__num">4</span>Carbs or fat</legend>
+      <legend class="step"><span class="step__num">4</span>Your focus</legend>
       <div class="choices">
-        <label class="choice" *ngFor="let option of fatOptions">
-          <input type="radio" formControlName="fatShare" [value]="option.value" />
+        <label class="choice" *ngFor="let option of styleOptions">
+          <input type="radio" formControlName="style" [value]="option.value" />
           <span class="choice__body">
             <span class="choice__title">{{ option.title }}</span>
             <span class="choice__text">{{ option.text }}</span>
@@ -99,7 +99,7 @@
 
         <p class="result__warning" *ngIf="result.carbsLow">
           Your carbs are on the low side for hard training. If you run or lift a lot, consider more calories or the
-          "More carbs" option.
+          Endurance focus.
         </p>
       </ng-container>
 
