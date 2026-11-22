@@ -20,6 +20,8 @@ import { StoryComponent } from "./components/story/story.component";
 import { NutritionComponent } from "./components/nutrition/nutrition.component";
 import { ToolsComponent } from "./components/tools/tools.component";
 import { ToolsCaloriesComponent } from "./components/tools-calories/tools-calories.component";
+import { ToolsMacrosComponent } from "./components/tools-macros/tools-macros.component";
+import { MacroCalculatorComponent } from "./components/macro-calculator/macro-calculator.component";
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { ToolsCaloriesComponent } from "./components/tools-calories/tools-calori
     BlogComponent,
     BlogPostComponent,
     ToolsHeartRateComponent,
+    ToolsMacrosComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +48,7 @@ import { ToolsCaloriesComponent } from "./components/tools-calories/tools-calori
     NgbModule,
     CalorieCalculatorComponent,
     HeartRateCalculatorComponent,
+    MacroCalculatorComponent,
     MarkdownModule.forRoot({ loader: HttpClient }),
   ],
   providers: [],

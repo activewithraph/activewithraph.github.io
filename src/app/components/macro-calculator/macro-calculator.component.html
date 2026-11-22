@@ -1,0 +1,120 @@
+<div class="macro">
+  <form class="macro__form" [formGroup]="form" novalidate>
+    <!-- 1. Calories -->
+    <fieldset class="card">
+      <legend class="step"><span class="step__num">1</span>Your daily calories</legend>
+      <div class="field">
+        <label class="field__label" for="calories">Calories per day</label>
+        <div class="box"><input id="calories" type="number" inputmode="numeric" formControlName="calories" /><span class="box__unit">kcal</span></div>
+        <p class="field__error" *ngIf="showError(form.controls.calories)">Enter a value between 1,000 and 6,000 kcal.</p>
+      </div>
+      <p class="field__hint">
+        Don't know your target yet? Work it out with the <a routerLink="/tools/calories">calorie calculator</a> first.
+      </p>
+    </fieldset>
+
+    <!-- 2. Weight -->
+    <fieldset class="card">
+      <legend class="step"><span class="step__num">2</span>Your weight</legend>
+
+      <div class="field">
+        <span class="field__label" id="units-label">Units</span>
+        <div class="seg" role="radiogroup" aria-labelledby="units-label">
+          <label *ngFor="let u of unitOptions"><input type="radio" formControlName="units" [value]="u.value" /><span>{{ u.label }}</span></label>
+        </div>
+        <p class="field__hint">{{ isImperial ? 'Pounds.' : 'Kilograms.' }} The results are in grams either way.</p>
+      </div>
+
+      <div class="field field--spaced" *ngIf="!isImperial">
+        <label class="field__label" for="weight">Body weight</label>
+        <div class="box"><input id="weight" type="number" inputmode="decimal" step="0.1" formControlName="weightKg" /><span class="box__unit">kg</span></div>
+        <p class="field__error" *ngIf="showError(form.controls.weightKg)">Enter a weight between 35 and 250 kg.</p>
+      </div>
+      <div class="field field--spaced" *ngIf="isImperial">
+        <label class="field__label" for="weight-lb">Body weight</label>
+        <div class="box"><input id="weight-lb" type="number" inputmode="decimal" step="0.1" formControlName="weightLb" /><span class="box__unit">lb</span></div>
+        <p class="field__error" *ngIf="showError(form.controls.weightLb)">Enter a weight between 77 and 550 lb.</p>
+      </div>
+    </fieldset>
+
+    <!-- 3. Goal -->
+    <fieldset class="card">
+      <legend class="step"><span class="step__num">3</span>Your goal</legend>
+      <div class="seg seg--wide" role="radiogroup" aria-label="Goal">
+        <label *ngFor="let g of goals"><input type="radio" formControlName="goal" [value]="g.value" /><span>{{ g.label }}</span></label>
+      </div>
+      <p class="field__hint">Your goal sets how much protein you get: more while losing weight, to hold on to muscle.</p>
+    </fieldset>
+
+    <!-- 4. Fat or carbs -->
+    <fieldset class="card">
+      <legend class="step"><span class="step__num">4</span>Carbs or fat</legend>
+      <div class="choices">
+        <label class="choice" *ngFor="let option of fatOptions">
+          <input type="radio" formControlName="fatShare" [value]="option.value" />
+          <span class="choice__body">
+            <span class="choice__title">{{ option.title }}</span>
+            <span class="choice__text">{{ option.text }}</span>
+          </span>
+        </label>
+      </div>
+    </fieldset>
+  </form>
+
+  <aside class="macro__aside">
+    <section class="result" aria-live="polite" aria-labelledby="result-title">
+      <h2 class="result__title" id="result-title">Your daily macros</h2>
+
+      <ng-container *ngIf="result; else empty">
+        <div
+          class="share"
+          role="img"
+          [attr.aria-label]="'Protein ' + result.proteinPct + ' percent, carbs ' + result.carbsPct + ' percent, fat ' + result.fatPct + ' percent of your calories'"
+        >
+          <span class="share__part share__part--protein" [style.width.%]="result.proteinPct"></span>
+          <span class="share__part share__part--carbs" [style.width.%]="result.carbsPct"></span>
+          <span class="share__part share__part--fat" [style.width.%]="result.fatPct"></span>
+        </div>
+
+        <ul class="macros">
+          <li class="macro-tile macro-tile--protein">
+            <div class="macro-tile__name">Protein</div>
+            <div class="macro-tile__grams">{{ result.proteinG }}<span> g</span></div>
+            <div class="macro-tile__meta">{{ result.proteinKcal | number: '1.0-0' }} kcal · {{ result.proteinPct }}%</div>
+            <div class="macro-tile__meta">{{ result.proteinPerKg | number: '1.1-1' }} g per kg</div>
+          </li>
+          <li class="macro-tile macro-tile--carbs">
+            <div class="macro-tile__name">Carbs</div>
+            <div class="macro-tile__grams">{{ result.carbsG }}<span> g</span></div>
+            <div class="macro-tile__meta">{{ result.carbsKcal | number: '1.0-0' }} kcal · {{ result.carbsPct }}%</div>
+            <div class="macro-tile__meta">{{ result.carbsPerKg | number: '1.1-1' }} g per kg</div>
+          </li>
+          <li class="macro-tile macro-tile--fat">
+            <div class="macro-tile__name">Fat</div>
+            <div class="macro-tile__grams">{{ result.fatG }}<span> g</span></div>
+            <div class="macro-tile__meta">{{ result.fatKcal | number: '1.0-0' }} kcal · {{ result.fatPct }}%</div>
+            <div class="macro-tile__meta">{{ result.fatPerKg | number: '1.1-1' }} g per kg</div>
+          </li>
+        </ul>
+
+        <p class="result__warning" *ngIf="result.carbsLow">
+          Your carbs are on the low side for hard training. If you run or lift a lot, consider more calories or the
+          "More carbs" option.
+        </p>
+      </ng-container>
+
+      <ng-template #empty>
+        <p class="result__warning" *ngIf="tooFewCalories">
+          At this weight, protein and fat already use up all of these calories. Raise your calories or check your weight.
+        </p>
+        <p class="result__empty" *ngIf="!tooFewCalories">Fill in the steps and your macros show up here.</p>
+      </ng-template>
+    </section>
+
+    <p class="macro__note">
+      Grams are rounded to the nearest 5 and add up to your calories within about 10 kcal. Protein is based on your
+      total body weight: if you carry a lot of body fat, the lower end is plenty. This is an estimate, not medical
+      advice. If you have a medical condition, ask a doctor or dietitian.
+    </p>
+  </aside>
+</div>
