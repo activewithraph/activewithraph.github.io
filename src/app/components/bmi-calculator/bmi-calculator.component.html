@@ -1,0 +1,89 @@
+<div class="bmi">
+  <form class="bmi__form" [formGroup]="form" novalidate>
+    <fieldset class="card">
+      <legend class="step"><span class="step__num">1</span>About you</legend>
+
+      <div class="field">
+        <span class="field__label" id="units-label">Units</span>
+        <div class="seg" role="radiogroup" aria-labelledby="units-label">
+          <label *ngFor="let u of unitOptions"><input type="radio" formControlName="units" [value]="u.value" /><span>{{ u.label }}</span></label>
+        </div>
+        <p class="field__hint">{{ isImperial ? 'Pounds, feet and inches.' : 'Kilograms and centimetres.' }}</p>
+      </div>
+
+      <!-- Height -->
+      <div class="field field--spaced" *ngIf="!isImperial">
+        <label class="field__label" for="height">Height</label>
+        <div class="box"><input id="height" type="number" inputmode="numeric" formControlName="heightCm" /><span class="box__unit">cm</span></div>
+        <p class="field__error" *ngIf="showError(form.controls.heightCm)">Enter a height between 120 and 230 cm.</p>
+      </div>
+      <div class="field field--spaced" *ngIf="isImperial">
+        <label class="field__label" for="height-ft">Height</label>
+        <div class="pair">
+          <div class="box"><input id="height-ft" type="number" inputmode="numeric" formControlName="heightFt" aria-label="Feet" /><span class="box__unit">ft</span></div>
+          <div class="box"><input id="height-in" type="number" inputmode="numeric" formControlName="heightIn" aria-label="Inches" /><span class="box__unit">in</span></div>
+        </div>
+        <p class="field__error" *ngIf="showError(form.controls.heightFt) || showError(form.controls.heightIn)">Enter 4 to 7 feet and 0 to 11 inches.</p>
+      </div>
+
+      <!-- Weight -->
+      <div class="field field--spaced" *ngIf="!isImperial">
+        <label class="field__label" for="weight">Weight</label>
+        <div class="box"><input id="weight" type="number" inputmode="decimal" step="0.1" formControlName="weightKg" /><span class="box__unit">kg</span></div>
+        <p class="field__error" *ngIf="showError(form.controls.weightKg)">Enter a weight between 35 and 250 kg.</p>
+      </div>
+      <div class="field field--spaced" *ngIf="isImperial">
+        <label class="field__label" for="weight-lb">Weight</label>
+        <div class="box"><input id="weight-lb" type="number" inputmode="decimal" step="0.1" formControlName="weightLb" /><span class="box__unit">lb</span></div>
+        <p class="field__error" *ngIf="showError(form.controls.weightLb)">Enter a weight between 77 and 550 lb.</p>
+      </div>
+
+      <p class="field__hint">For adults from 18 years.</p>
+    </fieldset>
+  </form>
+
+  <aside class="bmi__aside">
+    <section class="result" aria-live="polite" aria-labelledby="result-title">
+      <h2 class="result__title" id="result-title">Your BMI</h2>
+
+      <ng-container *ngIf="result; else empty">
+        <div class="result__value">
+          {{ result.bmi | number: '1.1-1' }}
+          <span class="result__category result__category--{{ result.category }}">{{ categoryLabels[result.category] }}</span>
+        </div>
+
+        <!-- The scale: the segment widths match 15 to 18.5 / 18.5 to 25 / 25 to 30 / 30 to 40 -->
+        <div class="scale" role="img" [attr.aria-label]="'BMI ' + (result.bmi | number: '1.1-1') + ' on a scale from 15 to 40. ' + categoryLabels[result.category] + '.'">
+          <div class="scale__bar">
+            <span class="scale__part scale__part--underweight"></span>
+            <span class="scale__part scale__part--normal"></span>
+            <span class="scale__part scale__part--overweight"></span>
+            <span class="scale__part scale__part--obese"></span>
+          </div>
+          <span class="scale__marker" [style.left.%]="result.markerPct"></span>
+          <div class="scale__ticks" aria-hidden="true">
+            <span style="left: 14%">18.5</span>
+            <span style="left: 40%">25</span>
+            <span style="left: 60%">30</span>
+          </div>
+        </div>
+
+        <p class="result__text">{{ categoryTexts[result.category] }}</p>
+
+        <p class="result__range">
+          <strong>Healthy weight for your height:</strong> {{ healthyRange }}
+        </p>
+      </ng-container>
+
+      <ng-template #empty>
+        <p class="result__empty">Fill in your height and weight and your BMI shows up here.</p>
+      </ng-template>
+    </section>
+
+    <p class="bmi__note">
+      BMI is your weight divided by your height squared. It is a quick screen, not a diagnosis. It cannot tell muscle from
+      fat, so strong, muscular people often score "overweight" while being lean and healthy. It also ignores where
+      you carry your weight and your age. If you have a medical condition, ask a doctor or dietitian.
+    </p>
+  </aside>
+</div>

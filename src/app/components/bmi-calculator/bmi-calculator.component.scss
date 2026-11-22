@@ -1,0 +1,378 @@
+// BMI calculator. Needs colors.css (the fallbacks after each variable keep it working without).
+
+// ---------- Local variables ----------
+$navy: var(--color-navy, #0f172a);
+$text: var(--color-text, #1e293b);
+$muted: var(--color-text-muted, #64748b);
+$border: var(--color-border, #e2e8f0);
+$accent: var(--color-accent, #d63a16);
+$accent-hover: var(--color-accent-hover, #b32e10);
+$accent-bright: var(--color-accent-bright, #ff5a36);
+
+// Scale colours (same hues as the macro calculator, so the tools feel related)
+$c-underweight: #4f8cdf;
+$c-normal: #3fae6a;
+$c-overweight: #f2b134;
+$c-obese: #ff5a36;
+
+$bp-tablet: 900px;
+$bp-phone: 640px;
+
+@mixin focus-ring($offset: 2px) {
+  outline: 3px solid $accent-bright;
+  outline-offset: $offset;
+}
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.bmi {
+  display: grid;
+  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+  gap: 32px;
+  width: min(1000px, 90%);
+  margin: 24px auto 80px;
+  align-items: start;
+  color: $text;
+
+  @media screen and (max-width: $bp-tablet) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+// ---------- Step card ----------
+
+.card {
+  min-width: 0;
+  margin: 0 0 20px;
+  padding: 24px;
+  border: 1px solid $border;
+  border-radius: 16px;
+  background: var(--color-bg, #ffffff);
+
+  @media screen and (max-width: $bp-phone) {
+    padding: 20px;
+  }
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  float: left;
+  width: 100%;
+  margin: 0 0 16px;
+  padding: 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: $navy;
+
+  + * {
+    clear: both;
+  }
+
+  &__num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex: none;
+    border-radius: 50%;
+    background: $accent-bright;
+    color: $navy;
+    font-size: 0.95rem;
+  }
+}
+
+// ---------- Fields ----------
+
+.field {
+  min-width: 0;
+
+  &--spaced {
+    margin-top: 16px;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: $navy;
+  }
+
+  &__hint {
+    margin: 14px 0 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: $muted;
+  }
+
+  &__error {
+    margin: 6px 0 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $accent;
+  }
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background: #ffffff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:focus-within {
+    border-color: $navy;
+    box-shadow: 0 0 0 3px rgba(255, 90, 54, 0.35);
+  }
+
+  input {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    padding: 0 0 0 14px;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    color: $navy;
+    outline: none;
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+
+  &__unit {
+    padding: 0 14px 0 8px;
+    font-size: 0.9rem;
+    color: $muted;
+  }
+}
+
+// Feet and inches next to each other
+.pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+
+  .box__unit {
+    padding: 0 10px 0 4px;
+  }
+}
+
+// ---------- Metric / imperial switch ----------
+
+.seg {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: #f1f5f9;
+
+  label {
+    display: block;
+    position: relative;
+
+    &:hover input:not(:checked) + span {
+      background: #e2e8f0;
+    }
+  }
+
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+
+    &:checked + span {
+      background: $navy;
+      color: #ffffff;
+    }
+
+    &:focus-visible + span {
+      @include focus-ring;
+    }
+  }
+
+  span {
+    display: block;
+    padding: 10px 22px;
+    border-radius: 999px;
+    text-align: center;
+    font-weight: 600;
+    color: $navy;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+}
+
+// ---------- Result ----------
+
+.bmi__aside {
+  position: sticky;
+  top: 24px;
+  min-width: 0;
+
+  @media screen and (max-width: $bp-tablet) {
+    position: static;
+  }
+}
+
+.result {
+  padding: 28px;
+  border-radius: 16px;
+  background: linear-gradient($navy, #283550);
+  color: #ffffff;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+
+  @media screen and (max-width: $bp-phone) {
+    padding: 22px 18px;
+  }
+
+  &__title {
+    margin: 0 0 16px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: $accent-bright;
+  }
+
+  &__empty {
+    margin: 0;
+    line-height: 1.6;
+    color: #cbd5e1;
+  }
+
+  &__value {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px 16px;
+    margin-bottom: 28px;
+    font-size: 3.2rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  &__category {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: $navy;
+
+    &--underweight {
+      background: $c-underweight;
+    }
+    &--normal {
+      background: $c-normal;
+    }
+    &--overweight {
+      background: $c-overweight;
+    }
+    &--obese {
+      background: $c-obese;
+    }
+  }
+
+  &__text {
+    margin: 36px 0 0;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: #e2e8f0;
+  }
+
+  &__range {
+    margin: 16px 0 0;
+    padding: 12px 14px;
+    border-left: 4px solid $c-normal;
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+}
+
+// ---------- The scale ----------
+// Segment widths match the BMI values: 15-18.5, 18.5-25, 25-30, 30-40 (of a 15-40 scale).
+
+.scale {
+  position: relative;
+  padding-top: 10px;
+
+  &__bar {
+    display: flex;
+    height: 14px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  &__part {
+    display: block;
+    height: 100%;
+
+    &--underweight {
+      width: 14%;
+      background: $c-underweight;
+    }
+    &--normal {
+      width: 26%;
+      background: $c-normal;
+    }
+    &--overweight {
+      width: 20%;
+      background: $c-overweight;
+    }
+    &--obese {
+      width: 40%;
+      background: $c-obese;
+    }
+  }
+
+  // A white pin above the bar, so it doesn't rely on colour alone
+  &__marker {
+    position: absolute;
+    top: 0;
+    width: 4px;
+    height: 34px;
+    margin-left: -2px;
+    border-radius: 2px;
+    background: #ffffff;
+    box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.5);
+  }
+
+  &__ticks {
+    position: relative;
+    height: 20px;
+    margin-top: 8px;
+    font-size: 0.75rem;
+    color: #cbd5e1;
+
+    span {
+      position: absolute;
+      transform: translateX(-50%);
+    }
+  }
+}
+
+.bmi__note {
+  margin: 16px 4px 0;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: $muted;
+}

@@ -1,0 +1,14 @@
+.back {
+  width: min(1000px, 90%);
+  margin: 32px auto 0;
+
+  a {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-accent, #d63a16);
+
+    &:hover {
+      color: var(--color-accent-hover, #b32e10);
+    }
+  }
+}

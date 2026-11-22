@@ -21,7 +21,9 @@ import { NutritionComponent } from "./components/nutrition/nutrition.component";
 import { ToolsComponent } from "./components/tools/tools.component";
 import { ToolsCaloriesComponent } from "./components/tools-calories/tools-calories.component";
 import { ToolsMacrosComponent } from "./components/tools-macros/tools-macros.component";
+  import { ToolsBmiComponent } from "./components/tools-bmi/tools-bmi.component";
 import { MacroCalculatorComponent } from "./components/macro-calculator/macro-calculator.component";
+import { BmiCalculatorComponent } from "./components/bmi-calculator/bmi-calculator.component";
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { MacroCalculatorComponent } from "./components/macro-calculator/macro-ca
     BlogPostComponent,
     ToolsHeartRateComponent,
     ToolsMacrosComponent,
+    ToolsBmiComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +52,7 @@ import { MacroCalculatorComponent } from "./components/macro-calculator/macro-ca
     CalorieCalculatorComponent,
     HeartRateCalculatorComponent,
     MacroCalculatorComponent,
+    BmiCalculatorComponent,
     MarkdownModule.forRoot({ loader: HttpClient }),
   ],
   providers: [],
