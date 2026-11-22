@@ -15,7 +15,7 @@ const UNITS_STORAGE_KEY = 'activewithraph.units';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './macro-calculator.component.html',
-  styleUrls: ['./macro-calculator.component.css'],
+  styleUrls: ['./macro-calculator.component.scss'],
 })
 export class MacroCalculatorComponent implements OnDestroy {
   readonly unitOptions: { value: UnitSystem; label: string }[] = [
