@@ -75,9 +75,9 @@ export class MacroCalculatorComponent implements OnDestroy {
   get proteinNote(): string {
     const v = this.form.getRawValue();
     if (v.style === 'muscle') {
-      return 'The Muscle focus uses the top of the range that research supports for people who train. It also suits you while losing weight, to keep your muscle.';
+      return 'That is 2 grams per kilogram of body weight, at the high end of what studies suggest for people who lift. It helps you build muscle, or keep it while you lose weight.';
     }
-    return 'This is about the point where extra protein stops adding much muscle. Eating more than this has little extra benefit.';
+    return 'That is 1.6 grams per kilogram of body weight. Studies suggest this is enough for most people who train, and eating more adds little.';
   }
 
   private applyUnits(units: UnitSystem, convert: boolean): void {
