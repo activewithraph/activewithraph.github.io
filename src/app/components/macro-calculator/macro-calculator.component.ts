@@ -24,9 +24,9 @@ export class MacroCalculatorComponent implements OnDestroy {
   ];
 
   readonly goals: { value: Goal; label: string }[] = [
-    { value: 'lose', label: 'Lose' },
-    { value: 'maintain', label: 'Maintain' },
-    { value: 'gain', label: 'Gain' },
+    { value: 'lose', label: 'Lose weight' },
+    { value: 'maintain', label: 'Maintain weight' },
+    { value: 'gain', label: 'Build muscle' },
   ];
 
   readonly fatOptions: { value: FatShare; title: string; text: string }[] = [
@@ -62,6 +62,16 @@ export class MacroCalculatorComponent implements OnDestroy {
       this.form.controls.units.valueChanges.subscribe((units) => {
         this.applyUnits(units, true);
         this.saveUnits(units);
+      })
+    );
+    // Building muscle needs carbs to fuel the training, so suggest "More carbs" for that goal. This only happens
+    // as long as the visitor hasn't chosen a carb/fat option themselves.
+    this.subscriptions.add(
+      this.form.controls.goal.valueChanges.subscribe((goal) => {
+        const fat = this.form.controls.fatShare;
+        if (!fat.dirty) {
+          fat.setValue(goal === 'gain' ? 'lower' : 'balanced', { emitEvent: false });
+        }
       })
     );
     this.subscriptions.add(this.form.valueChanges.subscribe(() => this.update()));

@@ -59,8 +59,8 @@ export class CalorieCalculatorComponent implements OnDestroy {
 
   readonly goals: { value: Goal; label: string }[] = [
     { value: 'lose', label: 'Lose weight' },
-    { value: 'maintain', label: 'Maintain' },
-    { value: 'gain', label: 'Gain weight' },
+    { value: 'maintain', label: 'Maintain weight' },
+    { value: 'gain', label: 'Build muscle' },
   ];
 
   /**
@@ -143,7 +143,7 @@ export class CalorieCalculatorComponent implements OnDestroy {
       case 'lose':
         return 'to lose weight steadily, about 15% below maintenance';
       case 'gain':
-        return 'to gain weight gradually, about 10% above maintenance';
+        return 'to build muscle with little fat gain, about 10% above maintenance';
       default:
         return 'to keep your weight stable';
     }

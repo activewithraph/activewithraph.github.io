@@ -58,7 +58,7 @@ export const DAILY_ACTIVITY_FACTOR: Record<DailyActivity, number> = {
 export const GOAL_FACTOR: Record<Goal, number> = {
   lose: 0.85, // about 15% below
   maintain: 1,
-  gain: 1.1, // about 10% above
+  gain: 1.1, // about 10% above: a small surplus for building muscle (or gaining weight in general)
 };
 
 /** Lowest target we show when the goal is to lose weight. */

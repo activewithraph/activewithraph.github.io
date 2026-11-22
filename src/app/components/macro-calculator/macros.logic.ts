@@ -39,11 +39,11 @@ export interface MacroResult {
 /** Calories per gram. */
 export const KCAL_PER_G = { protein: 4, carbs: 4, fat: 9 } as const;
 
-/** Protein in grams per kg of body weight. Higher when cutting, to hold on to muscle. */
+/** Protein in grams per kg of body weight. Higher when cutting (to hold on to muscle) and when building muscle. */
 export const PROTEIN_PER_KG: Record<Goal, number> = {
   lose: 2.0,
   maintain: 1.6,
-  gain: 1.8,
+  gain: 2.0, // building muscle
 };
 
 /** Share of the calories that comes from fat. */

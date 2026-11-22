@@ -124,6 +124,10 @@
       <div class="seg seg--wide" role="radiogroup" aria-label="Goal">
         <label *ngFor="let g of goals"><input type="radio" formControlName="goal" [value]="g.value" /><span>{{ g.label }}</span></label>
       </div>
+      <p class="field__hint">
+        Build muscle uses a small surplus, so you gain muscle with as little fat as possible. It also works if you
+        simply want to gain weight.
+      </p>
     </fieldset>
   </form>
 
