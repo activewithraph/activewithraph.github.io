@@ -24,8 +24,8 @@ export class MacroCalculatorComponent implements OnDestroy {
   ];
 
   readonly goals: { value: Goal; label: string }[] = [
-    { value: 'lose', label: 'Lose' },
-    { value: 'maintain', label: 'Maintain' },
+    { value: 'lose', label: 'Lose weight' },
+    { value: 'maintain', label: 'Maintain weight' },
     { value: 'gain', label: 'Build muscle' },
   ];
 
