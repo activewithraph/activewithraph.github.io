@@ -1,12 +1,10 @@
 /**
  * Macro calculator maths. Plain TypeScript, no Angular imports.
  *
- *   protein = grams per kg of body weight (depends on the goal)
+ *   protein = grams per kg of body weight (depends on the focus)
  *   fat     = a share of the calories (but never below a minimum per kg)
  *   carbs   = whatever calories are left
  */
-
-import type { Goal } from '../calorie-calculator/calorie.logic';
 
 /** The visitor's focus, which shapes the split: balanced, more carbs for endurance, or more protein for muscle. */
 export type EatingStyle = 'balanced' | 'endurance' | 'muscle';
@@ -15,7 +13,6 @@ export interface MacroInput {
   /** The daily calorie target, for example from the calorie calculator. */
   calories: number;
   weightKg: number;
-  goal: Goal;
   style: EatingStyle;
 }
 
@@ -40,22 +37,18 @@ export interface MacroResult {
 /** Calories per gram. */
 export const KCAL_PER_G = { protein: 4, carbs: 4, fat: 9 } as const;
 
-/** Protein in grams per kg of body weight. Higher when cutting (to hold on to muscle) and when building muscle. */
-export const PROTEIN_PER_KG: Record<Goal, number> = {
-  lose: 2.0,
-  maintain: 1.6,
-  gain: 2.0, // building muscle
-};
-
 /**
- * What each focus changes.
+ * What each focus changes. The goal (lose, maintain or build muscle) is not asked here: it is already in the calorie
+ * target, which comes from the calorie calculator.
  * - fatShare: share of the calories from fat. A lower share leaves more room for carbs.
- * - proteinPerKg: a fixed protein amount that replaces the one from the goal, or null to keep the goal's amount.
+ * - proteinPerKg: protein in grams per kg of body weight.
+ *     1.6 is where extra protein stops adding much muscle in the Morton et al. (2018) meta-analysis, and sits inside the
+ *     ISSN range of 1.4 to 2.0 for exercising people. 2.0 is the top of that ISSN range.
  */
-export const STYLE_SETTINGS: Record<EatingStyle, { fatShare: number; proteinPerKg: number | null }> = {
-  balanced: { fatShare: 0.25, proteinPerKg: null },
-  endurance: { fatShare: 0.2, proteinPerKg: null },
-  muscle: { fatShare: 0.25, proteinPerKg: 2.2 },
+export const STYLE_SETTINGS: Record<EatingStyle, { fatShare: number; proteinPerKg: number }> = {
+  balanced: { fatShare: 0.25, proteinPerKg: 1.6 },
+  endurance: { fatShare: 0.2, proteinPerKg: 1.6 },
+  muscle: { fatShare: 0.25, proteinPerKg: 2.0 },
 };
 
 /** Fat never goes below this, even when the share of a low calorie target would be less. */
@@ -70,7 +63,7 @@ const roundTo5 = (n: number): number => Math.round(n / 5) * 5;
 /** Returns null when protein and fat already use up all the calories. */
 export function calculateMacros(input: MacroInput): MacroResult | null {
   const style = STYLE_SETTINGS[input.style];
-  const proteinG = roundTo5(input.weightKg * (style.proteinPerKg ?? PROTEIN_PER_KG[input.goal]));
+  const proteinG = roundTo5(input.weightKg * style.proteinPerKg);
   const fatG = roundTo5(
     Math.max((input.calories * style.fatShare) / KCAL_PER_G.fat, input.weightKg * MIN_FAT_PER_KG)
   );

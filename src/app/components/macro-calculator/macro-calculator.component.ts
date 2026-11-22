@@ -3,7 +3,6 @@ import { Component, OnDestroy } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Goal } from '../calorie-calculator/calorie.logic';
 import { UnitSystem, kgToLb, lbToKg, round1 } from '../calorie-calculator/units';
 import { EatingStyle, MacroResult, calculateMacros } from './macros.logic';
 
@@ -23,16 +22,10 @@ export class MacroCalculatorComponent implements OnDestroy {
     { value: 'imperial', label: 'Imperial' },
   ];
 
-  readonly goals: { value: Goal; label: string }[] = [
-    { value: 'lose', label: 'Lose weight' },
-    { value: 'maintain', label: 'Maintain weight' },
-    { value: 'gain', label: 'Build muscle' },
-  ];
-
   readonly styleOptions: { value: EatingStyle; title: string; text: string }[] = [
     { value: 'balanced', title: 'Balanced', text: 'A good all-round split. The default.' },
     { value: 'endurance', title: 'Endurance', text: 'More carbs, to fuel long runs and rides.' },
-    { value: 'muscle', title: 'Muscle', text: 'More protein, to support muscle growth and recovery.' },
+    { value: 'muscle', title: 'Muscle', text: 'More protein, to build or keep muscle. Also good while losing weight.' },
   ];
 
   /** Weight exists once per unit system; only the active one is enabled (disabled controls are ignored by validation). */
@@ -41,7 +34,6 @@ export class MacroCalculatorComponent implements OnDestroy {
     units: new FormControl<UnitSystem>('metric', { nonNullable: true }),
     weightKg: new FormControl<number | null>(null, [Validators.required, Validators.min(35), Validators.max(250)]),
     weightLb: new FormControl<number | null>(null, [Validators.required, Validators.min(77), Validators.max(550)]),
-    goal: new FormControl<Goal>('maintain', { nonNullable: true }),
     style: new FormControl<EatingStyle>('balanced', { nonNullable: true }),
   });
 
@@ -64,16 +56,6 @@ export class MacroCalculatorComponent implements OnDestroy {
         this.saveUnits(units);
       })
     );
-    // Suggest the "Muscle" focus when the goal is Build muscle. This only happens as long as the visitor
-    // hasn't chosen a focus themselves.
-    this.subscriptions.add(
-      this.form.controls.goal.valueChanges.subscribe((goal) => {
-        const style = this.form.controls.style;
-        if (!style.dirty) {
-          style.setValue(goal === 'gain' ? 'muscle' : 'balanced', { emitEvent: false });
-        }
-      })
-    );
     this.subscriptions.add(this.form.valueChanges.subscribe(() => this.update()));
   }
 
@@ -87,6 +69,15 @@ export class MacroCalculatorComponent implements OnDestroy {
 
   showError(control: AbstractControl): boolean {
     return control.invalid && (control.touched || control.dirty);
+  }
+
+  /** One line that explains why the protein amount is what it is, so the number doesn't look arbitrary. */
+  get proteinNote(): string {
+    const v = this.form.getRawValue();
+    if (v.style === 'muscle') {
+      return 'The Muscle focus uses the top of the range that research supports for people who train. It also suits you while losing weight, to keep your muscle.';
+    }
+    return 'This is about the point where extra protein stops adding much muscle. Eating more than this has little extra benefit.';
   }
 
   private applyUnits(units: UnitSystem, convert: boolean): void {
@@ -122,7 +113,6 @@ export class MacroCalculatorComponent implements OnDestroy {
     const result = calculateMacros({
       calories: v.calories as number,
       weightKg,
-      goal: v.goal,
       style: v.style,
     });
 

@@ -9,7 +9,7 @@
         <p class="field__error" *ngIf="showError(form.controls.calories)">Enter a value between 1,000 and 6,000 kcal.</p>
       </div>
       <p class="field__hint">
-        Don't know your target yet? Work it out with the <a routerLink="/tools/calories">calorie calculator</a> first.
+        Don't know your target yet? Work it out with the <a routerLink="/tools/calories">calorie calculator</a> first. It already takes your goal into account: losing weight, maintaining or building muscle.
       </p>
     </fieldset>
 
@@ -37,18 +37,9 @@
       </div>
     </fieldset>
 
-    <!-- 3. Goal -->
+    <!-- 3. Focus -->
     <fieldset class="card">
-      <legend class="step"><span class="step__num">3</span>Your goal</legend>
-      <div class="seg seg--wide" role="radiogroup" aria-label="Goal">
-        <label *ngFor="let g of goals"><input type="radio" formControlName="goal" [value]="g.value" /><span>{{ g.label }}</span></label>
-      </div>
-      <p class="field__hint">Your goal sets how much protein you get: more while losing weight, to hold on to muscle, and while building it. Choosing Build muscle also suggests the Muscle focus below.</p>
-    </fieldset>
-
-    <!-- 4. Focus -->
-    <fieldset class="card">
-      <legend class="step"><span class="step__num">4</span>Your focus</legend>
+      <legend class="step"><span class="step__num">3</span>Your focus</legend>
       <div class="choices">
         <label class="choice" *ngFor="let option of styleOptions">
           <input type="radio" formControlName="style" [value]="option.value" />
@@ -96,6 +87,8 @@
             <div class="macro-tile__meta">{{ result.fatPerKg | number: '1.1-1' }} g per kg</div>
           </li>
         </ul>
+
+        <p class="result__why"><strong>Why this much protein?</strong> {{ proteinNote }}</p>
 
         <p class="result__warning" *ngIf="result.carbsLow">
           Your carbs are on the low side for hard training. If you run or lift a lot, consider more calories or the
