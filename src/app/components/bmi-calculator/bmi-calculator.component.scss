@@ -183,7 +183,7 @@ $bp-phone: 640px;
   background: #f1f5f9;
 
   label {
-    display: block;
+    display: flex; // fills the full height of the row, so the text can be centred in it
     position: relative;
 
     &:hover input:not(:checked) + span {
@@ -208,7 +208,10 @@ $bp-phone: 640px;
   }
 
   span {
-    display: block;
+    display: flex;
+    flex: 1;
+    align-items: center; // centred vertically, so a neighbour that wraps doesn't leave this one at the top
+    justify-content: center;
     padding: 10px 22px;
     border-radius: 999px;
     text-align: center;
