@@ -92,12 +92,25 @@ MET values used:
 | Type | Easy | Moderate | Hard |
 | --- | --- | --- | --- |
 | Strength | 3.5 | 5.0 | 6.0 |
-| Running | 8.3 (about 8 km/h) | 9.8 (about 10 km/h) | 11.8 (about 12 km/h) |
+| Running | 8.3 (5 mph, about 8 km/h) | 9.8 (6 mph, about 10 km/h) | 11.8 (8 mph, about 13 km/h) |
 | Cycling | 4.8 | 7.0 | 10.0 |
 
-> **Not yet verified:** these values are rounded approximations of the Compendium of Physical Activities
-> (the standard MET reference). They were written from memory and not checked against the current Compendium.
-> Check them before presenting them on the site as sourced.
+**Checked on 23 November 2026** against the [2011 Compendium of Physical Activities](https://fitmum.ku.dk/2011_Compendium_of_Physical_Activities.pdf).
+The 2024 update exists and was not compared, so values may differ slightly.
+
+- **Running:** the three values are Compendium entries for 5, 6 and 8 mph.
+- **Strength:** 3.5 is the entry for general resistance training (8 to 15 reps), 6.0 for vigorous lifting. 5.0 is a Compendium
+  value for squats; here it serves as the middle level between the two. The Compendium has no separate "moderate" level.
+- **Cycling:**
+
+  | Level | Value used | Compendium entries it stands for |
+  | --- | --- | --- |
+  | Easy | 4.8 | leisure riding under about 16 km/h: 4.0 (under 10 mph) and 5.8 (about 9 mph). 4.8 is a value in between, not an entry |
+  | Moderate | 7.0 | 6.8 (10 to 11.9 mph, about 16 to 19 km/h) up to 8.0 (12 to 13.9 mph, about 19 to 22 km/h) |
+  | Hard | 10.0 | 14 to 15.9 mph, about 23 to 26 km/h |
+
+The effect of these choices is small: for three 60-minute strength sessions a week at 78 kg, using 3.5 instead of 5.0 for
+"moderate" would lower the daily estimate by about 50 kcal, around 2% of maintenance.
 
 Code: `MET`, `workoutCaloriesPerDay()`.
 
