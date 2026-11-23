@@ -1,4 +1,4 @@
-# Calorie calculator: how it works
+# Calories and macros calculator: how it works
 
 Daily calorie target for the Tools page. This file explains the calculation, where each part lives in the code,
 and how to ask for changes. It describes the code as it was first written; if you change the code, update this file.
@@ -8,10 +8,31 @@ and how to ask for changes. It describes the code as it was first written; if yo
 | File | What it does |
 | --- | --- |
 | `calorie.logic.ts` | All the maths and constants. Plain TypeScript, no Angular. **Change numbers here.** |
-| `calorie-calculator.component.ts` | The form (reactive forms), validation limits, live result. |
+| `units.ts` | Metric/imperial conversions (lb, kg, ft/in, cm). |
+| `calorie-calculator.component.ts` | The form (reactive forms), validation limits, unit switching, live result. |
 | `calorie-calculator.component.html` | The layout: 4 step cards and the result card. All visible text is here. |
 | `calorie-calculator.component.css` | Styling (uses the variables from `colors.css`). |
 | `tools-calories.component.*` | The page at `/tools/calories` that hosts `<app-calorie-calculator>`. |
+
+## Calories and macros in one tool
+
+The macro calculator is now part of this component. At the top the visitor chooses:
+
+- **Work out my calories** (default): steps 1 to 4 below, then the macro focus as step 5.
+- **I know my calories**: one card with units, calories (1,000 to 6,000) and weight, then the macro focus as step 2.
+
+The result card shows the calorie target and its breakdown first, then the macros under it (share bar, one row each for
+protein, carbs and fat, and a line about the protein). In the second path it shows only the macros, based on the calories typed.
+
+How it works in the code (`calorie-calculator.component.ts`):
+
+- `mode` (`'calculate'` or `'known'`), `knownCalories` and `style` (macro focus) are extra form controls.
+- `syncEnabled()` enables only the controls that belong to the chosen mode and unit system. Disabled controls are
+  ignored by validation, so hidden fields never block the result. Change which fields belong to which mode here.
+- `update()` calculates the calories (calculate mode), then the macros from those calories and the weight.
+- The macro maths is unchanged and lives in `macros.logic.ts` (same folder). How it works and the sources are in
+  `MACRO_CALCULATOR.md` (same folder). 
+- The old standalone macro calculator component and page are gone.
 
 ## The calculation in 5 steps
 
@@ -89,11 +110,13 @@ Code: `MET`, `workoutCaloriesPerDay()`.
 | Gain weight | 1.10 | about 10% above maintenance |
 
 These percentages are common starting points, not derived from a formula.
+The goal is labelled "Gain weight" on the page (code name `gain`). It was called "Build muscle" before, but that clashed with
+the "Muscle" macro focus in the next step, so the two are kept apart: the goal sets how many calories, the focus sets the split.
 
 When the goal is **lose**, the target never goes below a minimum:
 **1,500 kcal for men, 1,200 for women**. If the person's own maintenance is already lower than that,
 the minimum is their maintenance (no deficit). When the minimum is used, the result card shows a warning.
-The minimum does not apply to maintain or gain.
+The minimum does not apply to maintain or gain weight.
 
 Code: `GOAL_FACTOR`, `MIN_CALORIES`, the end of `calculateCalories()`.
 
@@ -114,12 +137,27 @@ Target        = 2,640 x 1.00                         =                2,640
 
 For "lose weight" the target would be 2,640 x 0.85 = 2,244 -> 2,240; for "gain weight" 2,640 x 1.10 = 2,904 -> 2,900.
 
+## Units (metric and imperial)
+
+The visitor can switch between Metric (kg, cm) and Imperial (lb, ft and in) at the top of step 1.
+The calculation itself always runs in kg and cm: for imperial, the component converts first with the functions
+in `units.ts`, then calls `calculateCalories()`. `calorie.logic.ts` knows nothing about units.
+
+- Height and weight exist as separate form fields per system (`heightCm`/`weightKg` and `heightFt`/`heightIn`/`weightLb`).
+  Only the fields of the active system are enabled; disabled fields are ignored by validation.
+- Switching converts what was already typed (80 kg becomes 176.4 lb). Height is rounded to the nearest inch
+  (or back to whole cm), which can shift it by up to about 1.3 cm. That changes the result by less than 10 kcal.
+- The chosen system is remembered in the browser (`localStorage`, key `activewithraph.units`).
+  Default is metric. Storage failures (private mode) are ignored.
+- Imperial limits: 4 to 7 feet, 0 to 11 inches, 77 to 550 lb (about the same range as the metric limits).
+- Not supported: stones and pounds (UK).
+
 ## Accuracy and limits
 
 - Every step is an estimate. The total is realistically within about 10 to 15% of true needs.
 - The result card tells users to eat the target for 2 to 3 weeks, watch their weight trend and adjust by 100 to 150 kcal.
 - The page says it is not medical advice. Keep that.
-- Validation limits (in the component): age 18 to 99, height 120 to 230 cm, weight 35 to 250 kg,
+- Validation limits (in the component): age 18 to 99, height 120 to 230 cm, weight 35 to 250 kg (imperial limits above),
   1 to 14 sessions a week, 10 to 240 minutes, at most 6 workout rows.
 - The calculator is for healthy adults. It does not handle pregnancy, breastfeeding, medical conditions or under 18s.
 
@@ -134,7 +172,7 @@ Say which part you want changed and give the new value or rule. Examples:
   (Needs: `DailyActivity` type and `DAILY_ACTIVITY_FACTOR` in the logic, and `dailyOptions` in the component.)
 - "Use the Katch-McArdle formula when the user enters their body fat percentage."
 - "Show protein, carbs and fat targets under the calories."
-- "Add imperial units (lb, ft/in)."
+- "Add stones and pounds for UK visitors."
 
 Where things live:
 

@@ -13,7 +13,11 @@ import {
   WorkoutType,
   calculateCalories,
 } from './calorie.logic';
+import { EatingStyle, MacroResult, calculateMacros } from './macros.logic';
 import { UnitSystem, cmToFeetInches, feetInchesToCm, kgToLb, lbToKg, round1 } from './units';
+
+/** 'calculate': work out calories from body, day and workouts. 'known': the visitor already has a calorie target. */
+export type StartMode = 'calculate' | 'known';
 
 type WorkoutGroup = FormGroup<{
   type: FormControl<WorkoutType>;
@@ -57,10 +61,21 @@ export class CalorieCalculatorComponent implements OnDestroy {
     { value: 'hard', label: 'Hard' },
   ];
 
+  readonly modeOptions: { value: StartMode; label: string }[] = [
+    { value: 'calculate', label: 'Work out my calories' },
+    { value: 'known', label: 'I know my calories' },
+  ];
+
+  readonly styleOptions: { value: EatingStyle; title: string; text: string }[] = [
+    { value: 'balanced', title: 'Balanced', text: 'A good all-round split. The default.' },
+    { value: 'endurance', title: 'Endurance', text: 'More carbs, to fuel long runs and rides.' },
+    { value: 'muscle', title: 'Muscle', text: 'More protein, to build or keep muscle. Also good while losing weight.' },
+  ];
+
   readonly goals: { value: Goal; label: string }[] = [
     { value: 'lose', label: 'Lose weight' },
-    { value: 'maintain', label: 'Maintain weight' },
-    { value: 'gain', label: 'Build muscle' },
+    { value: 'maintain', label: 'Maintain' },
+    { value: 'gain', label: 'Gain weight' },
   ];
 
   /**
@@ -68,6 +83,9 @@ export class CalorieCalculatorComponent implements OnDestroy {
    * and disabled controls are ignored by form validation.
    */
   readonly form = new FormGroup({
+    mode: new FormControl<StartMode>('calculate', { nonNullable: true }),
+    knownCalories: new FormControl<number | null>(null, [Validators.required, Validators.min(1000), Validators.max(6000)]),
+    style: new FormControl<EatingStyle>('balanced', { nonNullable: true }),
     units: new FormControl<UnitSystem>('metric', { nonNullable: true }),
     sex: new FormControl<Sex | null>(null, Validators.required),
     age: new FormControl<number | null>(null, [Validators.required, Validators.min(18), Validators.max(99)]),
@@ -81,8 +99,17 @@ export class CalorieCalculatorComponent implements OnDestroy {
     goal: new FormControl<Goal>('maintain', { nonNullable: true }),
   });
 
-  /** null until every field is filled in correctly. */
+  /** The calorie result. null until every field is filled in correctly, and always null in 'known' mode. */
   result: CalorieResult | null = null;
+
+  /** The macro result. null until valid, or when protein and fat would use up all the calories. */
+  macros: MacroResult | null = null;
+
+  /** The calories the macros are based on (the calculated target, or what the visitor typed). */
+  macroCalories: number | null = null;
+
+  /** True when the form is valid but protein and fat already use up all the calories. */
+  tooFewCalories = false;
 
   private readonly subscriptions = new Subscription();
 
@@ -92,6 +119,7 @@ export class CalorieCalculatorComponent implements OnDestroy {
     this.applyUnits(saved, false);
 
     this.subscriptions.add(this.form.controls.units.valueChanges.subscribe((u) => this.onUnitsChanged(u)));
+    this.subscriptions.add(this.form.controls.mode.valueChanges.subscribe(() => this.syncEnabled()));
     this.subscriptions.add(this.form.valueChanges.subscribe(() => this.update()));
   }
 
@@ -101,6 +129,23 @@ export class CalorieCalculatorComponent implements OnDestroy {
 
   get isImperial(): boolean {
     return this.form.controls.units.value === 'imperial';
+  }
+
+  get isKnown(): boolean {
+    return this.form.controls.mode.value === 'known';
+  }
+
+  /** Step number of the macro focus card: the last step of whichever path is shown. */
+  get focusStep(): number {
+    return this.isKnown ? 2 : 5;
+  }
+
+  /** One line that explains why the protein amount is what it is, so the number doesn't look arbitrary. */
+  get proteinNote(): string {
+    if (this.form.controls.style.value === 'muscle') {
+      return 'That is 2 grams per kilogram of body weight, at the high end of what studies suggest for people who lift. It helps you build muscle, or keep it while you lose weight.';
+    }
+    return 'That is 1.6 grams per kilogram of body weight. Studies suggest this is enough for most people who train, and eating more adds little.';
   }
 
   get workouts(): FormArray<WorkoutGroup> {
@@ -143,7 +188,7 @@ export class CalorieCalculatorComponent implements OnDestroy {
       case 'lose':
         return 'to lose weight steadily, about 15% below maintenance';
       case 'gain':
-        return 'to build muscle with little fat gain, about 10% above maintenance';
+        return 'to gain weight slowly, about 10% above maintenance';
       default:
         return 'to keep your weight stable';
     }
@@ -170,11 +215,6 @@ export class CalorieCalculatorComponent implements OnDestroy {
           c.weightLb.setValue(round1(kgToLb(c.weightKg.value)), quiet);
         }
       }
-      c.heightCm.disable(quiet);
-      c.weightKg.disable(quiet);
-      c.heightFt.enable(quiet);
-      c.heightIn.enable(quiet);
-      c.weightLb.enable(quiet);
     } else {
       if (convert) {
         if (c.heightFt.value !== null && c.heightIn.value !== null) {
@@ -184,17 +224,69 @@ export class CalorieCalculatorComponent implements OnDestroy {
           c.weightKg.setValue(round1(lbToKg(c.weightLb.value)), quiet);
         }
       }
-      c.heightFt.disable(quiet);
-      c.heightIn.disable(quiet);
-      c.weightLb.disable(quiet);
-      c.heightCm.enable(quiet);
-      c.weightKg.enable(quiet);
     }
+    this.syncEnabled();
+  }
+
+  /**
+   * Decides which controls take part, from the start mode and the unit system. Disabled controls are
+   * ignored by validation, so hidden fields never block the result.
+   *   calculate: everything except the typed-in calories; height and weight of the chosen unit system.
+   *   known:     only calories, weight of the chosen unit system and the macro focus.
+   */
+  private syncEnabled(): void {
+    const c = this.form.controls;
+    const quiet = { emitEvent: false };
+    const imperial = this.isImperial;
+    const calculate = !this.isKnown;
+
+    const set = (control: AbstractControl, on: boolean): void => {
+      if (on) {
+        control.enable(quiet);
+      } else {
+        control.disable(quiet);
+      }
+    };
+
+    set(c.knownCalories, !calculate);
+    set(c.sex, calculate);
+    set(c.age, calculate);
+    set(c.dailyActivity, calculate);
+    set(c.goal, calculate);
+    set(c.workouts, calculate);
+    set(c.heightCm, calculate && !imperial);
+    set(c.heightFt, calculate && imperial);
+    set(c.heightIn, calculate && imperial);
+    set(c.weightKg, !imperial);
+    set(c.weightLb, imperial);
+
     this.update();
   }
 
   private update(): void {
-    this.result = this.form.valid ? calculateCalories(this.toInput()) : null;
+    this.result = null;
+    this.macros = null;
+    this.macroCalories = null;
+    this.tooFewCalories = false;
+
+    if (!this.form.valid) {
+      return;
+    }
+
+    const v = this.form.getRawValue();
+    const weightKg = v.units === 'imperial' ? lbToKg(v.weightLb as number) : (v.weightKg as number);
+
+    let calories: number;
+    if (v.mode === 'known') {
+      calories = v.knownCalories as number;
+    } else {
+      this.result = calculateCalories(this.toInput());
+      calories = this.result.target;
+    }
+    this.macroCalories = calories;
+
+    this.macros = calculateMacros({ calories, weightKg, style: v.style });
+    this.tooFewCalories = this.macros === null;
   }
 
   private toInput(): CalorieInput {

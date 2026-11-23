@@ -478,3 +478,131 @@
     font-size: 0.9rem;
   }
 }
+
+/* ---------- Start choice and macros (added when the macro calculator was merged in) ---------- */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.card--mode {
+  padding: 12px;
+}
+
+/* Macros inside the result card */
+.macros-block {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.macros-block--first {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.macros-block__title {
+  margin: 0 0 14px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent-bright, #ff5a36);
+}
+
+.share {
+  display: flex;
+  height: 14px;
+  margin-bottom: 16px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.share__part {
+  display: block;
+  height: 100%;
+  background: var(--macro-color);
+}
+
+/* One row per macro: name and details on the left, grams on the right */
+.macros {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.macro-tile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-left: 4px solid var(--macro-color);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.macro-tile__name {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--macro-color);
+}
+
+.macro-tile__meta {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #cbd5e1;
+}
+
+.macro-tile__grams {
+  flex: none;
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.macro-tile__grams span {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+.macro-tile--protein,
+.share__part--protein {
+  --macro-color: #ff5a36;
+}
+
+.macro-tile--carbs,
+.share__part--carbs {
+  --macro-color: #4f8cdf;
+}
+
+.macro-tile--fat,
+.share__part--fat {
+  --macro-color: #f2b134;
+}
+
+.result__why {
+  margin: 14px 0 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #cbd5e1;
+}
+
+.result__why strong {
+  color: #ffffff;
+}

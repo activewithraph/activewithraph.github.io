@@ -1,5 +1,47 @@
 <div class="calc">
   <form class="calc__form" [formGroup]="form" novalidate>
+    <!-- Start: work out calories, or enter them -->
+    <fieldset class="card card--mode">
+      <legend class="sr-only">How do you want to start?</legend>
+      <div class="seg seg--wide" role="radiogroup" aria-label="How do you want to start?">
+        <label *ngFor="let m of modeOptions"><input type="radio" formControlName="mode" [value]="m.value" /><span>{{ m.label }}</span></label>
+      </div>
+    </fieldset>
+
+    <!-- Path A: someone who already knows their calories -->
+    <fieldset class="card" *ngIf="isKnown">
+      <legend class="step"><span class="step__num">1</span>Your calories and weight</legend>
+
+      <div class="field">
+        <span class="field__label" id="units-label-known">Units</span>
+        <div class="seg" role="radiogroup" aria-labelledby="units-label-known">
+          <label *ngFor="let u of unitOptions"><input type="radio" formControlName="units" [value]="u.value" /><span>{{ u.label }}</span></label>
+        </div>
+        <p class="field__hint">{{ isImperial ? 'Pounds.' : 'Kilograms.' }} The macros are in grams either way.</p>
+      </div>
+
+      <div class="field field--spaced">
+        <label class="field__label" for="known-calories">Calories per day</label>
+        <div class="box"><input id="known-calories" type="number" inputmode="numeric" formControlName="knownCalories" /><span class="box__unit">kcal</span></div>
+        <p class="field__error" *ngIf="showError(form.controls.knownCalories)">Enter a value between 1,000 and 6,000 kcal.</p>
+      </div>
+
+      <div class="field field--spaced" *ngIf="!isImperial">
+        <label class="field__label" for="weight-known">Body weight</label>
+        <div class="box"><input id="weight-known" type="number" inputmode="decimal" step="0.1" formControlName="weightKg" /><span class="box__unit">kg</span></div>
+        <p class="field__error" *ngIf="showError(form.controls.weightKg)">Enter a weight between 35 and 250 kg.</p>
+      </div>
+      <div class="field field--spaced" *ngIf="isImperial">
+        <label class="field__label" for="weight-lb-known">Body weight</label>
+        <div class="box"><input id="weight-lb-known" type="number" inputmode="decimal" step="0.1" formControlName="weightLb" /><span class="box__unit">lb</span></div>
+        <p class="field__error" *ngIf="showError(form.controls.weightLb)">Enter a weight between 77 and 550 lb.</p>
+      </div>
+
+      <p class="field__hint">Your target should already take your goal into account: losing weight, maintaining or gaining weight.</p>
+    </fieldset>
+
+    <!-- Path B: work out the calories (steps 1 to 4) -->
+    <ng-container *ngIf="!isKnown">
     <!-- 1. About you -->
     <fieldset class="card">
       <legend class="step"><span class="step__num">1</span>About you</legend>
@@ -125,35 +167,110 @@
         <label *ngFor="let g of goals"><input type="radio" formControlName="goal" [value]="g.value" /><span>{{ g.label }}</span></label>
       </div>
       <p class="field__hint">
-        Build muscle uses a small surplus, so you gain muscle with as little fat as possible. It also works if you
-        simply want to gain weight.
+        Gain weight uses a small surplus, so you gain slowly. If you train with weights, a slow gain keeps
+        the extra fat to a minimum and most of it can be muscle.
       </p>
+    </fieldset>
+    </ng-container>
+
+    <!-- Last step of both paths: macro focus -->
+    <fieldset class="card">
+      <legend class="step"><span class="step__num">{{ focusStep }}</span>Your macro focus</legend>
+      <div class="choices">
+        <label class="choice" *ngFor="let option of styleOptions">
+          <input type="radio" formControlName="style" [value]="option.value" />
+          <span class="choice__body">
+            <span class="choice__title">{{ option.title }}</span>
+            <span class="choice__text">{{ option.text }}</span>
+          </span>
+        </label>
+      </div>
     </fieldset>
   </form>
 
   <aside class="calc__aside">
     <section class="result" aria-live="polite" aria-labelledby="result-title">
-      <h2 class="result__title" id="result-title">Your daily target</h2>
+      <h2 class="result__title" id="result-title">{{ isKnown ? 'Your daily macros' : 'Your daily target' }}</h2>
 
-      <ng-container *ngIf="result; else empty">
-        <div class="result__number">{{ result.target | number: '1.0-0' }}<span> kcal</span></div>
-        <p class="result__goal">{{ goalText }}</p>
+      <ng-container *ngIf="macroCalories !== null || result; else empty">
+        <!-- Calories (only when they were worked out here) -->
+        <ng-container *ngIf="result">
+          <div class="result__number">{{ result.target | number: '1.0-0' }}<span> kcal</span></div>
+          <p class="result__goal">{{ goalText }}</p>
 
-        <p class="result__warning" *ngIf="result.floorApplied">
-          Your target is held at {{ result.floor | number: '1.0-0' }} kcal. Going lower isn't advisable without
-          guidance from a doctor or dietitian.
-        </p>
+          <p class="result__warning" *ngIf="result.floorApplied">
+            Your target is held at {{ result.floor | number: '1.0-0' }} kcal. Going lower isn't advisable without
+            guidance from a doctor or dietitian.
+          </p>
 
-        <dl class="result__rows">
-          <div><dt>Resting energy</dt><dd>{{ result.bmr | number: '1.0-0' }}</dd></div>
-          <div><dt>Daily life</dt><dd>+ {{ result.dailyLife | number: '1.0-0' }}</dd></div>
-          <div><dt>Workouts (daily average)</dt><dd>+ {{ result.workouts | number: '1.0-0' }}</dd></div>
-          <div class="result__total"><dt>Maintenance</dt><dd>{{ result.maintenance | number: '1.0-0' }}</dd></div>
-          <div *ngIf="result.goalChange !== 0">
-            <dt>Goal adjustment</dt>
-            <dd>{{ result.goalChange > 0 ? '+' : '−' }} {{ (result.goalChange < 0 ? -result.goalChange : result.goalChange) | number: '1.0-0' }}</dd>
-          </div>
-        </dl>
+          <dl class="result__rows">
+            <div><dt>Resting energy</dt><dd>{{ result.bmr | number: '1.0-0' }}</dd></div>
+            <div><dt>Daily life</dt><dd>+ {{ result.dailyLife | number: '1.0-0' }}</dd></div>
+            <div><dt>Workouts (daily average)</dt><dd>+ {{ result.workouts | number: '1.0-0' }}</dd></div>
+            <div class="result__total"><dt>Maintenance</dt><dd>{{ result.maintenance | number: '1.0-0' }}</dd></div>
+            <div *ngIf="result.goalChange !== 0">
+              <dt>Goal adjustment</dt>
+              <dd>{{ result.goalChange > 0 ? '+' : '−' }} {{ (result.goalChange < 0 ? -result.goalChange : result.goalChange) | number: '1.0-0' }}</dd>
+            </div>
+          </dl>
+        </ng-container>
+
+        <p class="result__goal" *ngIf="!result">Based on {{ macroCalories | number: '1.0-0' }} kcal a day.</p>
+
+        <!-- Macros -->
+        <div class="macros-block" [class.macros-block--first]="!result">
+          <h3 class="macros-block__title" *ngIf="result">Your macros</h3>
+
+          <ng-container *ngIf="macros">
+            <div
+              class="share"
+              role="img"
+              [attr.aria-label]="'Protein ' + macros.proteinPct + ' percent, carbs ' + macros.carbsPct + ' percent, fat ' + macros.fatPct + ' percent of your calories'"
+            >
+              <span class="share__part share__part--protein" [style.width.%]="macros.proteinPct"></span>
+              <span class="share__part share__part--carbs" [style.width.%]="macros.carbsPct"></span>
+              <span class="share__part share__part--fat" [style.width.%]="macros.fatPct"></span>
+            </div>
+
+            <ul class="macros">
+              <li class="macro-tile macro-tile--protein">
+                <div class="macro-tile__info">
+                  <div class="macro-tile__name">Protein</div>
+                  <div class="macro-tile__meta">{{ macros.proteinKcal | number: '1.0-0' }} kcal · {{ macros.proteinPct }}%</div>
+                  <div class="macro-tile__meta">{{ macros.proteinPerKg | number: '1.1-1' }} g per kg</div>
+                </div>
+                <div class="macro-tile__grams">{{ macros.proteinG }}<span> g</span></div>
+              </li>
+              <li class="macro-tile macro-tile--carbs">
+                <div class="macro-tile__info">
+                  <div class="macro-tile__name">Carbs</div>
+                  <div class="macro-tile__meta">{{ macros.carbsKcal | number: '1.0-0' }} kcal · {{ macros.carbsPct }}%</div>
+                  <div class="macro-tile__meta">{{ macros.carbsPerKg | number: '1.1-1' }} g per kg</div>
+                </div>
+                <div class="macro-tile__grams">{{ macros.carbsG }}<span> g</span></div>
+              </li>
+              <li class="macro-tile macro-tile--fat">
+                <div class="macro-tile__info">
+                  <div class="macro-tile__name">Fat</div>
+                  <div class="macro-tile__meta">{{ macros.fatKcal | number: '1.0-0' }} kcal · {{ macros.fatPct }}%</div>
+                  <div class="macro-tile__meta">{{ macros.fatPerKg | number: '1.1-1' }} g per kg</div>
+                </div>
+                <div class="macro-tile__grams">{{ macros.fatG }}<span> g</span></div>
+              </li>
+            </ul>
+
+            <p class="result__why"><strong>About your protein.</strong> {{ proteinNote }}</p>
+
+            <p class="result__warning" *ngIf="macros.carbsLow">
+              Your carbs are on the low side for hard training. If you run or lift a lot, consider more calories or the
+              Endurance focus.
+            </p>
+          </ng-container>
+
+          <p class="result__warning" *ngIf="tooFewCalories">
+            At this weight, protein and fat already use up all of these calories. Raise your calories or check your weight.
+          </p>
+        </div>
       </ng-container>
 
       <ng-template #empty>
@@ -163,7 +280,9 @@
 
     <p class="calc__note">
       This is an estimate, usually within 10 to 15%. Treat it as a starting point: eat this amount for 2 to 3 weeks,
-      watch your weight trend, and adjust by 100 to 150 kcal if needed. It is not medical advice.
+      watch your weight trend, and adjust by 100 to 150 kcal if needed. Macro grams are rounded to the nearest 5, and
+      protein is based on your total body weight: if you carry a lot of body fat, the lower end is plenty. It is not
+      medical advice. If you have a medical condition, ask a doctor or dietitian.
     </p>
   </aside>
 </div>

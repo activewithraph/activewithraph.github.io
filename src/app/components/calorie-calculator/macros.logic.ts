@@ -38,7 +38,7 @@ export interface MacroResult {
 export const KCAL_PER_G = { protein: 4, carbs: 4, fat: 9 } as const;
 
 /**
- * What each focus changes. The goal (lose, maintain or build muscle) is not asked here: it is already in the calorie
+ * What each focus changes. The goal (lose, maintain or gain weight) is not asked here: it is already in the calorie
  * target, which comes from the calorie calculator.
  * - fatShare: share of the calories from fat. A lower share leaves more room for carbs.
  * - proteinPerKg: protein in grams per kg of body weight.
