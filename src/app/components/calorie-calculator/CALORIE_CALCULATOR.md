@@ -92,16 +92,23 @@ MET values used:
 | Type | Easy | Moderate | Hard |
 | --- | --- | --- | --- |
 | Strength | 3.5 | 5.0 | 6.0 |
-| Running | 8.3 (5 mph, about 8 km/h) | 9.8 (6 mph, about 10 km/h) | 11.8 (8 mph, about 13 km/h) |
+| Bodyweight | 3.0 | 4.5 | 6.5 |
+| Running | 8.5 (about 8 km/h) | 9.3 (about 10 km/h) | 11.8 (about 12 km/h) |
 | Cycling | 4.8 | 7.0 | 10.0 |
 
-**Checked on 23 November 2026** against the [2011 Compendium of Physical Activities](https://fitmum.ku.dk/2011_Compendium_of_Physical_Activities.pdf).
-The 2024 update exists and was not compared, so values may differ slightly.
+**Checked on 23 November 2026** against the [2024 Adult Compendium of Physical Activities](https://pubmed.ncbi.nlm.nih.gov/38242596/)
+(tables at [pacompendium.com](https://pacompendium.com)). I read the tables through a summary of the Japanese edition's PDF,
+so glance at the site yourself if you quote them as sourced. An earlier version of this file used the 2011 edition, which
+differs a little for running (8.3 and 9.8 where 2024 has 8.5 and 9.3).
 
-- **Running:** the three values are Compendium entries for 5, 6 and 8 mph.
-- **Strength:** 3.5 is the entry for general resistance training (8 to 15 reps), 6.0 for vigorous lifting. 5.0 is a Compendium
-  value for squats; here it serves as the middle level between the two. The Compendium has no separate "moderate" level.
-- **Cycling:**
+- **Running:** 8.5 is the entry for 5.0 to 5.2 mph (8.1 to 8.4 km/h), 9.3 for 6.0 to 6.3 mph (9.7 to 10.2 km/h), 11.8 for
+  7.5 mph (12.2 km/h).
+- **Strength:** 3.5 is the entry for multiple exercises at 8 to 15 reps (light to moderate), 6.0 for vigorous lifting.
+  5.0 is the entry for squats or deadlifts; here it serves as the middle level. There is no separate "moderate" entry for
+  general lifting.
+- **Bodyweight** (squats, lunges, push-ups, crunches): 3.0 is the entry for general effort and 6.5 for high intensity.
+  4.5 is a middle value I chose, not an entry. Circuit training is 5.8, which sits between moderate and hard.
+- **Cycling** (the same in 2011 and 2024):
 
   | Level | Value used | Compendium entries it stands for |
   | --- | --- | --- |
@@ -142,13 +149,13 @@ running moderate 2 x 45 min. Goal: maintain.
 BMR           = 10x78 + 6.25x182 - 5x34 + 5          = 1752.5  -> 1,750
 Daily life    = 1752.5 x 0.35                        =  613.4  ->   610
 Strength      = (5.0 - 1) x 78 x 1.00 h x 3          =  936 kcal/week
-Running       = (9.8 - 1) x 78 x 0.75 h x 2          = 1029.6 kcal/week
-Workouts      = (936 + 1029.6) / 7                   =  280.8  ->   280
-Maintenance   = 1,750 + 610 + 280                    =                2,640
-Target        = 2,640 x 1.00                         =                2,640
+Running       = (9.3 - 1) x 78 x 0.75 h x 2          =  971.1 kcal/week
+Workouts      = (936 + 971.1) / 7                    =  272.4  ->   270
+Maintenance   = 1,750 + 610 + 270                    =                2,630
+Target        = 2,630 x 1.00                         =                2,630
 ```
 
-For "lose weight" the target would be 2,640 x 0.85 = 2,244 -> 2,240; for "gain weight" 2,640 x 1.10 = 2,904 -> 2,900.
+For "lose weight" the target would be 2,630 x 0.85 = 2,235.5 -> 2,240; for "gain weight" 2,630 x 1.10 = 2,893 -> 2,890.
 
 ## Units (metric and imperial)
 
@@ -179,7 +186,7 @@ in `units.ts`, then calls `calculateCalories()`. `calorie.logic.ts` knows nothin
 Say which part you want changed and give the new value or rule. Examples:
 
 - "In `calorie.logic.ts`, change the lose-weight factor from 0.85 to 0.80."
-- "Add swimming as a workout type with MET easy 5.8, moderate 8.3, hard 9.8."
+- "Add swimming as a workout type with MET easy 5.8, moderate 8.3, hard 9.8." (Bodyweight was added the same way.)
   (Needs: the `WorkoutType` type and `MET` in `calorie.logic.ts`, and the `workoutTypes` list in the component.)
 - "Add a 4th daily-life option, 'Very active job', factor 1.6."
   (Needs: `DailyActivity` type and `DAILY_ACTIVITY_FACTOR` in the logic, and `dailyOptions` in the component.)
@@ -202,7 +209,7 @@ Useful to include when you ask: the file name, the old and new value, and the ex
 `calorie.logic.ts` has no Angular dependencies, so it can be tested on its own. Checks done when it was written:
 
 - BMR for a 30-year-old man (80 kg, 180 cm) = 1,780 and for a 30-year-old woman (60 kg, 165 cm) = 1,320.25.
-- The worked example above (workouts = 280, maintenance = 2,640).
+- The worked example above (workouts = 270, maintenance = 2,630, lose 2,240, gain 2,890), and a bodyweight check (hard, 3 x 30 min at 78 kg = 90 kcal a day).
 - A small woman who wants to lose weight is held at her maintenance instead of a deficit.
 - The goal adjustment always equals target minus maintenance.
 

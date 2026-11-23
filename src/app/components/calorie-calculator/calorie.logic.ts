@@ -7,7 +7,7 @@
 
 export type Sex = 'male' | 'female';
 export type DailyActivity = 'low' | 'some' | 'high';
-export type WorkoutType = 'strength' | 'running' | 'cycling';
+export type WorkoutType = 'strength' | 'bodyweight' | 'running' | 'cycling';
 export type Intensity = 'easy' | 'moderate' | 'hard';
 export type Goal = 'lose' | 'maintain' | 'gain';
 
@@ -67,10 +67,11 @@ export const MIN_CALORIES: Record<Sex, number> = {
   female: 1200,
 };
 
-/** MET values (gross, from the Compendium of Physical Activities, rounded). */
+/** MET values (gross, from the 2024 Compendium of Physical Activities, see CALORIE_CALCULATOR.md). */
 export const MET: Record<WorkoutType, Record<Intensity, number>> = {
   strength: { easy: 3.5, moderate: 5, hard: 6 },
-  running: { easy: 8.3, moderate: 9.8, hard: 11.8 }, // about 8, 10 and 12 km/h
+  bodyweight: { easy: 3, moderate: 4.5, hard: 6.5 }, // moderate is a middle value
+  running: { easy: 8.5, moderate: 9.3, hard: 11.8 }, // about 8, 10 and 12 km/h
   cycling: { easy: 4.8, moderate: 7, hard: 10 },
 };
 

@@ -51,6 +51,7 @@ export class CalorieCalculatorComponent implements OnDestroy {
 
   readonly workoutTypes: { value: WorkoutType; label: string }[] = [
     { value: 'strength', label: 'Strength' },
+    { value: 'bodyweight', label: 'Bodyweight' },
     { value: 'running', label: 'Running' },
     { value: 'cycling', label: 'Cycling' },
   ];
