@@ -1,4 +1,3 @@
-<!-- Replaces the old <div class="home-header ..."> block. Keep the rest of the page as it is. -->
 <div class="d-flex flex-column w-100 min-vh-100 align-items-center">
   <div class="home-header d-flex w-100 flex-column">
     <div class="home-header__runner">
@@ -22,22 +21,22 @@
           <span class="home-title__main">Active</span>
           <span class="home-title__sub">with Raph</span>
         </h1>
-        <p class="home-tagline">Lift. Run. Ride. Repeat.</p>
-        <a
-          class="home-cta btn-accent"
-          href="https://www.instagram.com/activewithraph/"
-          target="_blank"
-          rel="noopener"
-          >Follow on Instagram</a
-        >
+        <p class="home-tagline">Start where you are.</p>
+        <div class="home-actions">
+          <a class="home-cta btn-accent" routerLink="/home" fragment="start">Find your starting point</a>
+          <!-- TODO: point this to the page you write about doubts and taboos -->
+          <a class="home-cta home-cta--outline" routerLink="/holding-back">What's holding you back?</a>
+        </div>
       </div>
     </div>
   </div>
-   <section class="pillars mb-5">
-    <h2 class="pillars__title">What you'll find here</h2>
+
+  <!-- Three ways in. Each tile names the barrier it removes in the small orange line. -->
+  <section class="pillars mb-5" id="start">
+    <h2 class="pillars__title">Everything you need to get moving</h2>
 
     <div class="pillars__grid">
-      <a class="pillar" href="/train">
+      <a class="pillar" routerLink="/train">
         <div class="pillar__photo pillar__photo--icon">
           <!-- dumbbell icon: large plates inside, small plates outside, like the logo -->
           <svg class="pillar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -49,34 +48,34 @@
           </svg>
         </div>
         <div class="pillar__body">
-          <div class="pillar__kicker">01</div>
-          <h3 class="pillar__name">Train</h3>
+          <div class="pillar__kicker">No gym needed</div>
+          <h3 class="pillar__name">Get stronger</h3>
           <p class="pillar__text">
-            Exercise guides, plans that fit a busy week and workouts you can do at home. Simple, practical and tested on me.
+            Simple strength workouts at home. Start with your own body, and add bands or dumbbells when you're ready.
           </p>
-          <span class="pillar__more">See the guides</span>
+          <span class="pillar__more">See the workouts</span>
         </div>
       </a>
 
-      <a class="pillar" href="/nutrition">
+      <!-- TODO: point this to your running and cycling page once it exists (for now it shares /train) -->
+      <a class="pillar" routerLink="/train">
         <div class="pillar__photo pillar__photo--icon">
-          <!-- apple icon -->
+          <!-- pulse icon -->
           <svg class="pillar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z" />
-            <path d="M10 2c1 .5 2 2 2 5" />
+            <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
           </svg>
         </div>
         <div class="pillar__body">
-          <div class="pillar__kicker">02</div>
-          <h3 class="pillar__name">Nutrition</h3>
+          <div class="pillar__kicker">No hour needed</div>
+          <h3 class="pillar__name">Get moving</h3>
           <p class="pillar__text">
-            How I track what I eat and what the numbers mean. Simple tips to get started, without the obsession.
+            Running, cycling and short sessions that fit into your day. Start small and build up at your own pace.
           </p>
-          <span class="pillar__more">Read the tips</span>
+          <span class="pillar__more">Start moving</span>
         </div>
       </a>
 
-      <a class="pillar" href="/tools">
+      <a class="pillar" routerLink="/tools">
         <div class="pillar__photo pillar__photo--icon">
           <!-- calculator icon -->
           <svg class="pillar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -87,16 +86,16 @@
           </svg>
         </div>
         <div class="pillar__body">
-          <div class="pillar__kicker">03</div>
-          <h3 class="pillar__name">Tools</h3>
+          <div class="pillar__kicker">No guesswork</div>
+          <h3 class="pillar__name">Know your numbers</h3>
           <p class="pillar__text">
-            Work out your daily calories and your heart rate zones. More tools on the way.
+            Calories, macros, heart rate zones and BMI, explained in plain words. Find your starting point in minutes.
           </p>
           <span class="pillar__more">Open the tools</span>
         </div>
       </a>
     </div>
   </section>
-  
+
   <app-footer class="w-100 mt-auto"></app-footer>
 </div>

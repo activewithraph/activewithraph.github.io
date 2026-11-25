@@ -1,3 +1,8 @@
+/* Home page: all styles in one file (header + tiles). Needs colors.css (--banner-sky, --color-navy, --color-accent-bright ...).
+   Replaces home-header.css and pillars.css: you can delete those two. */
+
+/* ======================= Header ======================= */
+
 /* Home header: sky gradient + runner photo (legs stick out below) + text.
    Needs colors.css (--banner-sky, --color-navy, --color-accent-bright ...).
 
@@ -5,14 +10,12 @@
    1.446x the banner height and 0.446x of the banner height sticks out below it. */
 
 .home-header {
-  --h: 500px; /* banner height: the only number you need to change */
-  --img-h: calc(var(--h) * 1.446); /* 1446 / 1000 */
+  --h: 500px;                            /* banner height: the only number you need to change */
+  --img-h: calc(var(--h) * 1.446);       /* 1446 / 1000 */
   position: relative;
   height: var(--h);
-  margin-bottom: calc(
-    var(--h) * 0.446
-  ); /* room for the legs, shoe and shadow */
-  background: var(--banner-sky);
+  margin-bottom: calc(var(--h) * 0.446); /* room for the legs, shoe and shadow */
+  background: var(--banner-sky, linear-gradient(#cbd0dc 0%, #b0b6c2 43%, #b0b4c0 73%, #9ca3ae 93%));
 }
 
 /* Runner, positioned from the top-right of the banner */
@@ -49,7 +52,7 @@
   max-width: 46%;
   padding-left: clamp(24px, 8vw, 140px);
   padding-bottom: 40px;
-  color: var(--color-navy);
+  color: var(--color-navy, #0f172a);
 }
 
 /* Title: heavy "ACTIVE" over lighter "with Raph", with an orange accent bar */
@@ -59,6 +62,7 @@
   font-size: clamp(2.6rem, 5vw, 4.5rem);
   text-transform: uppercase;
   letter-spacing: 0.02em;
+  color: var(--color-navy, #0f172a);
 }
 
 .home-title::before {
@@ -68,16 +72,18 @@
   height: 6px;
   margin-bottom: 18px;
   border-radius: 3px;
-  background: var(--color-accent-bright);
+  background: var(--color-accent-bright, #ff5a36);
 }
 
 .home-title__main {
   display: block;
   font-weight: 800;
+  color: var(--color-navy, #0f172a);
 }
 
 .home-title__sub {
   display: block;
+  color: var(--color-navy, #0f172a);
   font-weight: 300;
   text-transform: none;
   letter-spacing: 0;
@@ -87,7 +93,24 @@
   margin: 0 0 24px;
   font-size: 1.25rem;
   font-weight: 500;
-  color: var(--color-navy);
+  color: var(--color-navy, #0f172a);
+}
+
+.home-actions .home-cta {
+  min-width: 15rem;
+  text-align: center;
+}
+
+.home-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+}
+
+.home-cta:focus-visible {
+  outline: 3px solid var(--color-navy, #0f172a);
+  outline-offset: 3px;
 }
 
 .home-cta {
@@ -96,19 +119,36 @@
   border-radius: 999px;
   font-weight: 700;
   text-decoration: none;
+  background: var(--color-accent-bright, #ff5a36);
+  color: var(--color-navy, #0f172a);
+}
+
+.home-cta:hover {
+  background: var(--color-accent, #d63a16);
+  color: #ffffff;
+}
+
+/* Second button: outlined, so the orange one stays the main choice */
+.home-cta--outline {
+  background: transparent;
+  color: var(--color-navy, #0f172a);
+  box-shadow: inset 0 0 0 2px var(--color-navy, #0f172a);
+}
+
+.home-cta--outline:hover {
+  background: var(--color-navy, #0f172a);
+  color: #ffffff;
 }
 
 /* Narrow screens: text first, runner centred underneath */
 @media screen and (max-width: 900px) {
   .home-header {
-    --h: 270px; /* visible height of the runner part */
+    --h: 270px;                          /* visible height of the runner part */
     height: auto;
     margin-bottom: calc(var(--h) * 0.446);
     /* gradient only behind the runner part, so it lines up with the photo's sky;
        the text area above gets the gradient's top colour */
-    background:
-      var(--banner-sky) left bottom / 100% var(--h) no-repeat,
-      #cbd0dc;
+    background: var(--banner-sky, linear-gradient(#cbd0dc 0%, #b0b6c2 43%, #b0b4c0 73%, #9ca3ae 93%)) left bottom / 100% var(--h) no-repeat, #cbd0dc;
   }
 
   .home-header__top {
@@ -131,12 +171,16 @@
     margin-right: auto;
   }
 
+  .home-actions {
+    justify-content: center;
+  }
+
   .home-header__runner {
     order: 3;
     position: relative;
     right: auto;
     align-self: center;
-    height: var(--h); /* the image itself overflows below */
+    height: var(--h);                    /* the image itself overflows below */
     overflow: visible;
   }
 
@@ -147,6 +191,11 @@
     mask-image: linear-gradient(to bottom, transparent 0, #000 9%);
   }
 }
+
+
+/* ======================= Tiles ======================= */
+
+/* The three pillars: running, strength, cycling. Needs colors.css. */
 
 .pillars {
   width: min(1100px, 90%);
@@ -248,6 +297,7 @@
   font-size: 0.85rem;
   font-weight: 800;
   letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--color-accent, #d63a16);
 }
 
