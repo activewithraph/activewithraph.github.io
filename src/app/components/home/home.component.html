@@ -21,80 +21,54 @@
           <span class="home-title__main">Active</span>
           <span class="home-title__sub">with Raph</span>
         </h1>
-        <p class="home-tagline">Start where you are.</p>
-        <div class="home-actions">
-          <a class="home-cta btn-accent" routerLink="/home" fragment="start">Find your starting point</a>
-          <!-- TODO: point this to the page you write about doubts and taboos -->
-          <a class="home-cta home-cta--outline" routerLink="/holding-back">What's holding you back?</a>
-        </div>
+        <p class="home-tagline">Lift. Run. Ride. Repeat.</p>
+        <a
+          class="home-cta btn-accent"
+          href="https://www.instagram.com/activewithraph/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Follow on Instagram</a
+        >
       </div>
     </div>
   </div>
 
-  <!-- Three ways in. Each tile names the barrier it removes in the small orange line. -->
-  <section class="pillars mb-5" id="start">
-    <h2 class="pillars__title">Everything you need to get moving</h2>
+  <!-- Two doors: the same tile look as the earlier pillars, with a slim icon block. The first one is the main door. -->
+  <section class="doors mb-5" aria-label="Where to begin">
+    <a class="door door--main" routerLink="/start">
+      <div class="door__photo">
+        <!-- route icon: a start point, a path and a goal -->
+        <svg class="door__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="6" cy="19" r="3" />
+          <path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15" />
+          <circle cx="18" cy="5" r="3" />
+        </svg>
+      </div>
+      <div class="door__body">
+        <h2 class="door__name">Start where you are</h2>
+        <!-- placeholder text: write your own -->
+        <p class="door__text">Get your numbers, learn to lift at home, choose your cardio and keep going.</p>
+        <span class="door__more">Take the first step</span>
+      </div>
+    </a>
 
-    <div class="pillars__grid">
-      <a class="pillar" routerLink="/train">
-        <div class="pillar__photo pillar__photo--icon">
-          <!-- dumbbell icon: large plates inside, small plates outside, like the logo -->
-          <svg class="pillar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="7.5" x2="16.5" y1="12" y2="12" />
-            <rect x="5" y="6" width="2.5" height="12" rx="1" />
-            <rect x="2" y="9" width="2" height="6" rx="0.8" />
-            <rect x="16.5" y="6" width="2.5" height="12" rx="1" />
-            <rect x="20" y="9" width="2" height="6" rx="0.8" />
-          </svg>
-        </div>
-        <div class="pillar__body">
-          <div class="pillar__kicker">No gym needed</div>
-          <h3 class="pillar__name">Get stronger</h3>
-          <p class="pillar__text">
-            Simple strength workouts at home. Start with your own body, and add bands or dumbbells when you're ready.
-          </p>
-          <span class="pillar__more">See the workouts</span>
-        </div>
-      </a>
-
-      <!-- TODO: point this to your running and cycling page once it exists (for now it shares /train) -->
-      <a class="pillar" routerLink="/train">
-        <div class="pillar__photo pillar__photo--icon">
-          <!-- pulse icon -->
-          <svg class="pillar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
-          </svg>
-        </div>
-        <div class="pillar__body">
-          <div class="pillar__kicker">No hour needed</div>
-          <h3 class="pillar__name">Get moving</h3>
-          <p class="pillar__text">
-            Running, cycling and short sessions that fit into your day. Start small and build up at your own pace.
-          </p>
-          <span class="pillar__more">Start moving</span>
-        </div>
-      </a>
-
-      <a class="pillar" routerLink="/tools">
-        <div class="pillar__photo pillar__photo--icon">
-          <!-- calculator icon -->
-          <svg class="pillar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect width="16" height="20" x="4" y="2" rx="2" />
-            <line x1="8" x2="16" y1="6" y2="6" />
-            <line x1="16" x2="16" y1="14" y2="18" />
-            <path d="M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01" />
-          </svg>
-        </div>
-        <div class="pillar__body">
-          <div class="pillar__kicker">No guesswork</div>
-          <h3 class="pillar__name">Know your numbers</h3>
-          <p class="pillar__text">
-            Calories, macros, heart rate zones and BMI, explained in plain words. Find your starting point in minutes.
-          </p>
-          <span class="pillar__more">Open the tools</span>
-        </div>
-      </a>
-    </div>
+    <!-- TODO: add the route /holding-back and write the page -->
+    <a class="door" routerLink="/holding-back">
+      <div class="door__photo">
+        <!-- question icon -->
+        <svg class="door__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+          <path d="M12 17h.01" />
+        </svg>
+      </div>
+      <div class="door__body">
+        <h2 class="door__name">What's holding you back?</h2>
+        <!-- placeholder text: write your own -->
+        <p class="door__text">The doubts and taboos that keep people from starting.</p>
+        <span class="door__more">Read why</span>
+      </div>
+    </a>
   </section>
 
   <app-footer class="w-100 mt-auto"></app-footer>

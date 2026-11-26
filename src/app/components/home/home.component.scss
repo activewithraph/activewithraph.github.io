@@ -1,14 +1,14 @@
-/* Home page: all styles in one file (header + tiles). Needs colors.css (--banner-sky, --color-navy, --color-accent-bright ...).
+/* Home page: all styles in one file (header + the two doors). Needs colors.css (--banner-sky, --color-navy, --color-accent-bright ...).
    Replaces home-header.css and pillars.css: you can delete those two. */
-
+ 
 /* ======================= Header ======================= */
-
+ 
 /* Home header: sky gradient + runner photo (legs stick out below) + text.
    Needs colors.css (--banner-sky, --color-navy, --color-accent-bright ...).
-
+ 
    The runner PNG is 1087x1446. The banner ends at image row 1000, so the image is
    1.446x the banner height and 0.446x of the banner height sticks out below it. */
-
+ 
 .home-header {
   --h: 500px;                            /* banner height: the only number you need to change */
   --img-h: calc(var(--h) * 1.446);       /* 1446 / 1000 */
@@ -17,7 +17,7 @@
   margin-bottom: calc(var(--h) * 0.446); /* room for the legs, shoe and shadow */
   background: var(--banner-sky, linear-gradient(#cbd0dc 0%, #b0b6c2 43%, #b0b4c0 73%, #9ca3ae 93%));
 }
-
+ 
 /* Runner, positioned from the top-right of the banner */
 .home-header__runner {
   position: absolute;
@@ -28,18 +28,18 @@
   z-index: 1;
   pointer-events: none;
 }
-
+ 
 .home-header__runner img {
   display: block;
   width: 100%;
   height: 100%;
 }
-
+ 
 .home-header__top {
   position: relative;
   z-index: 3;
 }
-
+ 
 .home-header__hero {
   position: relative;
   z-index: 2;
@@ -47,14 +47,14 @@
   display: flex;
   align-items: center;
 }
-
+ 
 .home-header__text {
   max-width: 46%;
   padding-left: clamp(24px, 8vw, 140px);
   padding-bottom: 40px;
   color: var(--color-navy, #0f172a);
 }
-
+ 
 /* Title: heavy "ACTIVE" over lighter "with Raph", with an orange accent bar */
 .home-title {
   margin: 0 0 16px;
@@ -64,7 +64,7 @@
   letter-spacing: 0.02em;
   color: var(--color-navy, #0f172a);
 }
-
+ 
 .home-title::before {
   content: "";
   display: block;
@@ -74,13 +74,13 @@
   border-radius: 3px;
   background: var(--color-accent-bright, #ff5a36);
 }
-
+ 
 .home-title__main {
   display: block;
   font-weight: 800;
   color: var(--color-navy, #0f172a);
 }
-
+ 
 .home-title__sub {
   display: block;
   color: var(--color-navy, #0f172a);
@@ -88,31 +88,19 @@
   text-transform: none;
   letter-spacing: 0;
 }
-
+ 
 .home-tagline {
   margin: 0 0 24px;
   font-size: 1.25rem;
   font-weight: 500;
   color: var(--color-navy, #0f172a);
 }
-
-.home-actions .home-cta {
-  min-width: 15rem;
-  text-align: center;
-}
-
-.home-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px 24px;
-}
-
+ 
 .home-cta:focus-visible {
   outline: 3px solid var(--color-navy, #0f172a);
   outline-offset: 3px;
 }
-
+ 
 .home-cta {
   display: inline-block;
   padding: 0.75rem 1.5rem;
@@ -122,24 +110,12 @@
   background: var(--color-accent-bright, #ff5a36);
   color: var(--color-navy, #0f172a);
 }
-
+ 
 .home-cta:hover {
   background: var(--color-accent, #d63a16);
   color: #ffffff;
 }
-
-/* Second button: outlined, so the orange one stays the main choice */
-.home-cta--outline {
-  background: transparent;
-  color: var(--color-navy, #0f172a);
-  box-shadow: inset 0 0 0 2px var(--color-navy, #0f172a);
-}
-
-.home-cta--outline:hover {
-  background: var(--color-navy, #0f172a);
-  color: #ffffff;
-}
-
+ 
 /* Narrow screens: text first, runner centred underneath */
 @media screen and (max-width: 900px) {
   .home-header {
@@ -150,31 +126,28 @@
        the text area above gets the gradient's top colour */
     background: var(--banner-sky, linear-gradient(#cbd0dc 0%, #b0b6c2 43%, #b0b4c0 73%, #9ca3ae 93%)) left bottom / 100% var(--h) no-repeat, #cbd0dc;
   }
-
+ 
   .home-header__top {
     order: 1;
   }
-
+ 
   .home-header__hero {
     order: 2;
     justify-content: center;
     text-align: center;
   }
-
+ 
   .home-header__text {
     max-width: 100%;
     padding: 0 24px 24px;
   }
-
+ 
   .home-title::before {
     margin-left: auto;
     margin-right: auto;
   }
-
-  .home-actions {
-    justify-content: center;
-  }
-
+ 
+ 
   .home-header__runner {
     order: 3;
     position: relative;
@@ -183,7 +156,7 @@
     height: var(--h);                    /* the image itself overflows below */
     overflow: visible;
   }
-
+ 
   .home-header__runner img {
     height: var(--img-h);
     /* the photo's top edge now sits mid-header, so fade it in */
@@ -191,149 +164,105 @@
     mask-image: linear-gradient(to bottom, transparent 0, #000 9%);
   }
 }
-
-
-/* ======================= Tiles ======================= */
-
-/* The three pillars: running, strength, cycling. Needs colors.css. */
-
-.pillars {
-  width: min(1100px, 90%);
-  margin: 0 auto;
-}
-
-.pillars__title {
-  margin: 0 0 32px;
-  text-align: center;
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  color: var(--color-navy, #0f172a);
-}
-
-.pillars__title::after {
-  content: "";
-  display: block;
-  width: 64px;
-  height: 6px;
-  margin: 14px auto 0;
-  border-radius: 3px;
-  background: var(--color-accent-bright, #ff5a36);
-}
-
-.pillars__grid {
+ 
+ 
+/* ======================= The two doors ======================= */
+ 
+.doors {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  width: min(960px, 90%);
 }
-
-.pillar {
+ 
+.door {
   display: flex;
   flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--color-border, #e2e8f0);
   border-radius: 16px;
   background: var(--color-bg, #ffffff);
-  color: var(--color-text, #1e293b);
   text-decoration: none;
+  color: var(--color-text, #1e293b);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
-.pillar:hover,
-.pillar:focus-visible {
+ 
+/* Hover: the tile lifts a little and gets a soft shadow (as on the original pillars) */
+.door:hover,
+.door:focus-visible {
   transform: translateY(-4px);
   box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+  color: inherit;
 }
-
-.pillar__photo {
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  background: var(--color-navy, #0f172a);
+ 
+/* Keyboard focus keeps a visible outline as well */
+.door:focus-visible {
+  outline: 3px solid var(--color-navy, #0f172a);
+  outline-offset: 4px;
 }
-
-/* Icon variant: orange line icon on a navy panel, for pillars without a photo */
-.pillar__photo--icon {
-  aspect-ratio: 16 / 9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(var(--color-navy, #0f172a), #283550);
-  color: var(--color-accent-bright, #ff5a36);
-}
-
-.pillar__icon {
-  width: 88px;
-  height: auto;
-  transition: transform 0.4s ease;
-}
-
-.pillar:hover .pillar__icon {
-  transform: scale(1.06);
-}
-
-.pillar__photo img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  transition: transform 0.4s ease;
-}
-
-.pillar:hover .pillar__photo img {
-  transform: scale(1.04);
-}
-
-.pillar__body {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 22px 24px 26px;
-}
-
-.pillar__kicker {
-  margin-bottom: 6px;
-  font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-accent, #d63a16);
-}
-
-.pillar__name {
+ 
+.door__name {
   margin: 0 0 10px;
   font-size: 1.5rem;
   font-weight: 800;
+  line-height: 1.15;
   text-transform: uppercase;
   letter-spacing: 0.02em;
   color: var(--color-navy, #0f172a);
 }
-
-.pillar__text {
-  margin: 0 0 18px;
-  flex: 1;
+ 
+.door__text {
+  margin: 0 0 24px;
   line-height: 1.55;
   color: var(--color-text-muted, #64748b);
 }
-
-.pillar__more {
-  font-weight: 700;
+ 
+.door__more {
+  margin-top: auto;
+  font-weight: 800;
   color: var(--color-accent, #d63a16);
 }
-
-.pillar__more::after {
+ 
+.door__more::after {
   content: " \2192";
 }
-
-.pillar:hover .pillar__more {
+ 
+/* The slim navy block with the orange icon (kept low on purpose) */
+.door__photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 84px;
+  background: linear-gradient(var(--color-navy, #0f172a), #283550);
+  color: var(--color-accent-bright, #ff5a36);
+}
+ 
+.door__icon {
+  width: 44px;
+  height: 44px;
+  transition: transform 0.4s ease;
+}
+ 
+/* The icon zooms in gently on hover */
+.door:hover .door__icon {
+  transform: scale(1.12);
+}
+ 
+.door__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 24px 28px 26px;
+}
+ 
+.door:hover .door__more {
   color: var(--color-accent-hover, #b32e10);
 }
-
-@media screen and (max-width: 900px) {
-  .pillars__grid {
-    grid-template-columns: 1fr;
-    max-width: 440px;
-    margin: 0 auto;
+ 
+@media screen and (max-width: 800px) {
+  .doors {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 520px;
   }
 }
+ 
