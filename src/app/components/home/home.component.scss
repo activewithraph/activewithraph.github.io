@@ -168,6 +168,28 @@
  
 /* ======================= The two doors ======================= */
  
+/* Same heading style as the original pillars title: uppercase with a short orange bar */
+.doors-title {
+  width: min(960px, 90%);
+  margin: 0 0 32px;
+  text-align: center;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-navy, #0f172a);
+}
+ 
+.doors-title::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 6px;
+  margin: 14px auto 0;
+  border-radius: 3px;
+  background: var(--color-accent-bright, #ff5a36);
+}
+ 
 .doors {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
